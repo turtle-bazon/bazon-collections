@@ -23,5 +23,14 @@
 (def-w-generic add-object (collection object)
   (:documentation "Destructively adds given object to collection."))
 
+(def-w-generic add-all-objects (collection objects)
+  (:documentation "Destructively adds all given objects to collection."))
+
 (def-w-generic remove-object (collection object &optional &key test)
   (:documentation "Destructively removes given object from collection"))
+
+(def-w-generic remove-all-objects (collection objects)
+  (:documentation "Destructively removes all given objects from collection."))
+
+(def-w-generic remove-with-condition (collection condition)
+  (:documentation "Destructively removes all object satisfies given condition."))

@@ -7,7 +7,24 @@
    :collection-impls
    :generic-marks
 
-   )
+   :abstract-collection
+   :size
+   :empty-p
+   :contains
+   :clear
+   :add-object
+   :add-all-objects
+   :remove-object
+   :remove-all-objects
+   :remove-with-condition
+
+   :abstract-list
+   :index-of
+   :get-object-at
+   :set-object-at
+   :insert-object-after
+   :insert-object-before
+   :remove-object-at)
   (:documentation "Common Lisp Collections framework"))
 
 (in-package :ru.bazon.bazon-collections)
