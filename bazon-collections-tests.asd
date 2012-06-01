@@ -7,7 +7,7 @@
   :version "0.0.1.0"
   :description "Common Lisp Collections framework tests"
   :depends-on (:bazon-collections :lift :iterate)
-  :components ((:module tests-collections
+  :components ((:module tests
                         :components
 			((:file "package")
 			 (:file "bazon-collections-tests" :depends-on ("package"))))))

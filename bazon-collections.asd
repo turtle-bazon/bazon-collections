@@ -7,7 +7,7 @@
   :version "0.0.1.0"
   :description "Common Lisp Collections framework"
   :depends-on ()
-  :components ((:module src-collections
+  :components ((:module src
                         :components
 			((:file "package")
 			 (:file "collection" :depends-on ("package"))
