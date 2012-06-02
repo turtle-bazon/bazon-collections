@@ -3,12 +3,7 @@
 (in-package :ru.bazon.bazon-collections)
 
 (defclass abstract-list (abstract-collection)
-  ((test :initarg :test
-	 :initform #'equal
-	 :documentation "Comparator function for contained objects.")
-   (hash :initarg :hash
-	 :initform #'sxhash
-	 :documentation "Hash function for contained objects."))
+  ()
   (:documentation "Collection of ordered elements."))
 
 (def-r-generic sub-list (list start-index end-index)

@@ -24,7 +24,19 @@
    :set-object-at
    :insert-object-after
    :insert-object-before
-   :remove-object-at)
+   :remove-object-at
+
+   :abstract-set
+   :member-object
+   :difference-sets
+   :intersection-sets
+   :union-sets
+
+   :abstract-queue
+
+   :abstract-stack
+
+   :abstract-tree)
   (:documentation "Common Lisp Collections framework"))
 
 (in-package :ru.bazon.bazon-collections)

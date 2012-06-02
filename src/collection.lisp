@@ -3,7 +3,12 @@
 (in-package :ru.bazon.bazon-collections)
 
 (defclass abstract-collection ()
-  ()
+  ((test :initarg :test
+	 :initform #'equal
+	 :documentation "Comparator function for contained objects.")
+   (hash :initarg :hash
+	 :initform #'sxhash
+	 :documentation "Hash function for contained objects."))
   (:documentation
    "Root class for collections.
     Collection is a group of objects."))

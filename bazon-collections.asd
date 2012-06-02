@@ -12,6 +12,14 @@
 			((:file "package")
 			 (:file "collection" :depends-on ("package"))
 			 (:file "list" :depends-on ("package"
+						    "collection"))
+			 (:file "set" :depends-on ("package"
+						   "collection"))
+			 (:file "queue" :depends-on ("package"
+						     "collection"))
+			 (:file "stack" :depends-on ("package"
+						     "collection"))
+			 (:file "tree" :depends-on ("package"
 						    "collection")))))
   :in-order-to ((test-op (test-op bazon-collections-tests)))
   :perform (test-op :after (op c)
