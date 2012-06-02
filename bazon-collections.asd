@@ -13,7 +13,7 @@
 			 (:file "collection" :depends-on ("package"))
 			 (:file "list" :depends-on ("package"
 						    "collection"))
-			 (:file "ordere-list" :depends-on ("package"
+			 (:file "ordered-list" :depends-on ("package"
 							   "list"))
 			 (:file "queue" :depends-on ("package"
 						     "ordered-list"))
