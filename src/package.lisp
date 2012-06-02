@@ -26,16 +26,29 @@
    :insert-object-before
    :remove-object-at
 
+   :abstract-ordered-list
+   :peek-object
+   
+   :abstract-queue
+   :enqueue-object
+   :dequeue-object
+
+   :abstract-stack
+   :push-object
+   :pop-object
+
    :abstract-set
    :member-object
    :difference-sets
    :intersection-sets
    :union-sets
 
-   :abstract-queue
-
-   :abstract-stack
-
+   :abstract-map
+   :contains-key
+   :contains-value
+   :get-object
+   :put-object
+   
    :abstract-tree)
   (:documentation "Common Lisp Collections framework"))
 

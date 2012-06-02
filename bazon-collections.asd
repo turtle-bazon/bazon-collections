@@ -13,12 +13,16 @@
 			 (:file "collection" :depends-on ("package"))
 			 (:file "list" :depends-on ("package"
 						    "collection"))
+			 (:file "ordere-list" :depends-on ("package"
+							   "list"))
+			 (:file "queue" :depends-on ("package"
+						     "ordered-list"))
+			 (:file "stack" :depends-on ("package"
+						     "ordered-list"))
 			 (:file "set" :depends-on ("package"
 						   "collection"))
-			 (:file "queue" :depends-on ("package"
-						     "collection"))
-			 (:file "stack" :depends-on ("package"
-						     "collection"))
+			 (:file "map" :depends-on ("package"
+						   "collection"))
 			 (:file "tree" :depends-on ("package"
 						    "collection")))))
   :in-order-to ((test-op (test-op bazon-collections-tests)))
