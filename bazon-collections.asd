@@ -13,12 +13,12 @@
 			 (:file "collection" :depends-on ("package"))
 			 (:file "list" :depends-on ("package"
 						    "collection"))
-			 (:file "ordered-list" :depends-on ("package"
-							   "list"))
+			 (:file "linear-list" :depends-on ("package"
+							   "collection"))
 			 (:file "queue" :depends-on ("package"
-						     "ordered-list"))
+						     "linear-list"))
 			 (:file "stack" :depends-on ("package"
-						     "ordered-list"))
+						     "linear-list"))
 			 (:file "set" :depends-on ("package"
 						   "collection"))
 			 (:file "map" :depends-on ("package"

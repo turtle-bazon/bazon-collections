@@ -26,8 +26,9 @@
    :insert-object-before
    :remove-object-at
 
-   :abstract-ordered-list
+   :abstract-linear-list
    :peek-object
+   :pull-object
    
    :abstract-queue
    :enqueue-object
