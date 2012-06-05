@@ -10,6 +10,7 @@
   :components ((:module src
                         :components
 			((:file "package")
+			 (:file "iterator" :depends-on ("package"))
 			 (:file "collection" :depends-on ("package"))
 			 (:file "list" :depends-on ("package"
 						    "collection"))
