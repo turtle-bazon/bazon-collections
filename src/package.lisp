@@ -7,6 +7,11 @@
    :collection-impls
    :generic-marks
 
+   :abstract-iterator
+   :has-next
+   :current
+   :next
+   
    :abstract-collection
    :size
    :empty-p
