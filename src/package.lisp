@@ -16,9 +16,11 @@
    :size
    :empty-p
    :contains
+   :iterator
    :clear
    :add-object
    :add-all-objects
+   :erase-object
    :remove-object
    :remove-all-objects
    :remove-with-condition
