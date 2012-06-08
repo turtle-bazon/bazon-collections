@@ -22,8 +22,14 @@
 (def-r-generic contains (collection object)
   (:documentation "Tests if given object contains in collection."))
 
-(def-r-generic iterator (collection)
+(def-r-generic iterator (collection &optional condition)
   (:documentation "Returns iterator for given collection."))
+
+(def-r-generic find-object (collection object)
+  (:documentation "Finds given object and returns iterator pointing to it."))
+
+(def-r-generic find-all-objects (collection condition)
+  (:documentation "Returns iterator that points to all objects that conforms to given condition."))
 
 (def-w-generic clear (collection)
   (:documentation "Clears given collection."))
@@ -35,13 +41,13 @@
   (:documentation "Destructively adds all given objects to collection."))
 
 (def-w-generic erase-object (collection iterator)
-  (:documentation "Erase object at current iterator."))
+  (:documentation "Erase object at iterator's current position."))
+
+(def-w-generic erase-all-objects (collection iterator)
+  (:documentation "Sequentally removes all object given by iterator."))
 
 (def-w-generic remove-object (collection object)
   (:documentation "Destructively removes given object from collection"))
 
 (def-w-generic remove-all-objects (collection objects)
   (:documentation "Destructively removes all given objects from collection."))
-
-(def-w-generic remove-with-condition (collection condition)
-  (:documentation "Destructively removes all object satisfies given condition."))

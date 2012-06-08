@@ -17,13 +17,15 @@
    :empty-p
    :contains
    :iterator
+   :find-object
+   :find-all-objects
    :clear
    :add-object
    :add-all-objects
    :erase-object
+   :erase-all-objects
    :remove-object
    :remove-all-objects
-   :remove-with-condition
 
    :abstract-list
    :index-of
