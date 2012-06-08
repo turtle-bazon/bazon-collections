@@ -51,3 +51,8 @@
 
 (def-w-generic remove-all-objects (collection objects)
   (:documentation "Destructively removes all given objects from collection."))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defmethod empty-p ((collection abstract-collection))
+  (= 0 (size collection)))

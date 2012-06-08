@@ -35,6 +35,8 @@
    :insert-object-before
    :remove-object-at
 
+   :array-list
+   
    :abstract-linear-list
    :peek-object
    :pull-object
