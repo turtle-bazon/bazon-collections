@@ -56,3 +56,12 @@
 
 (defmethod empty-p ((collection abstract-collection))
   (= 0 (size collection)))
+
+(defmethod add-all-objects ((collection abstract-collection) objects)
+  (loop for object in objects
+       do (add-object collection object)))
+
+(defmethod add-all-objects ((collection abstract-collection) (objects abstract-collection))
+  (let ((iterator (iterator objects)))
+    (loop while (has-next iterator)
+	 do (add-object collection (next iterator)))))

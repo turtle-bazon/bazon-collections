@@ -26,3 +26,6 @@
 
 (def-w-generic remove-object-at (list index)
   (:documentation "Destructively removes object by given index."))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
