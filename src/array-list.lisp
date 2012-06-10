@@ -37,24 +37,8 @@
 	 do (setf (aref elements-array i) nil))
     (setf size 0)))
 
-(defun ensure-array-list-capacity (list need-size)
-  (with-slots (size elements-array)
-      list
-    (let ((size-diff (- need-size size)))
-      (when (plusp size-diff)
-	(let* ((size-addition (* size 2))
-	       (new-array (make-array (+ size size-addition))))
-	  (dotimes (i size)
-	    (setf (aref new-array i)
-		  (aref elements-array i)))
-	  (setf elements-array new-array))))))
-
 (defmethod add-object ((list array-list) object)
-  (with-slots (size elements-array)
-      list
-    (ensure-array-list-capacity list (+ size 1))
-    (setf (aref elements-array size) object)
-    (incf size)))
+  (insert-object-before list (slot-value list 'size) object))
 
 (defmethod add-all-objects ((list array-list) objects)
   (with-slots (size elements-array)
@@ -95,5 +79,57 @@
       list
     (setf (aref elements-array index) object)))
 
+(defun ensure-array-list-capacity (list need-size)
+  (declare (type array-list list)
+	   (type integer need-size))
+  (with-slots (size elements-array)
+      list
+    (when (> need-size (length elements-array))
+      (let ((new-array (make-array (* need-size 2))))
+	(dotimes (i size)
+	  (setf (aref new-array i)
+		(aref elements-array i)))
+	(setf elements-array new-array)))))
+
+(defun array-shift-right (elements-array from-index to-index count)
+  (declare (type (simple-array t (*)) elements-array)
+	   (type integer from-index to-index count))
+  (loop for i from to-index downto from-index
+     do (setf (aref elements-array (+ i count))
+	      (aref elements-array i))))
+
+(defun array-list-insert-object (list place-position object)
+  (declare (type array-list list)
+	   (type integer place-position))
+  (with-slots (size elements-array)
+      list
+    (ensure-array-list-capacity list (+ size 1))
+    (array-shift-right elements-array place-position (- size 1) 1)
+    (setf (aref elements-array place-position) object)
+    (incf size)))
+
+(defmethod insert-object-before ((list array-list) (index integer) object)
+  (array-list-insert-object list index object))
+
 (defmethod insert-object-after ((list array-list) (index integer) object)
+  (array-list-insert-object list (+ index 1) object))
+
+(defmethod insert-objects-before ((list array-list) (index integer) objects)
+  (with-slots (size elements-array)
+      list
+    (ensure-array-list-capacity list (+ size (length objects)))
+    (array-shift-right elements-array index (- size 1) (length objects))
+    (loop for object in objects
+       do (progn
+	    (setf (aref elements-array index) object)
+	    (incf index)))
+    (incf size (length object))))
+
+(defmethod insert-objects-before ((list array-list) (index integer) (collection abstract-collection))
+  )
+
+(defmethod insert-objects-after ((list array-list) (index integer) objects)
+  )
+
+(defmethod insert-objects-after ((list array-list) (index integer) (collection abstract-collection))
   )

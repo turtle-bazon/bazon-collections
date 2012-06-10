@@ -31,8 +31,10 @@
    :index-of
    :get-object-at
    :set-object-at
-   :insert-object-after
    :insert-object-before
+   :insert-object-after
+   :insert-objects-before
+   :insert-objects-after
    :remove-object-at
 
    :array-list

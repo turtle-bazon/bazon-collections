@@ -18,11 +18,17 @@
 (def-w-generic set-object-at (list index object)
   (:documentation "Destructively sets object at given index."))
 
+(def-w-generic insert-object-before (list index object)
+  (:documentation "Destructively inserts object before object by given index."))
+
 (def-w-generic insert-object-after (list index object)
   (:documentation "Destructively inserts object after object by given index."))
 
-(def-w-generic insert-object-before (list index object)
-  (:documentation "Destructively inserts object before object by given index."))
+(def-w-generic insert-objects-before (list index object)
+  (:documentation "Destructively inserts objects before object by given index."))
+
+(def-w-generic insert-objects-after (list index object)
+  (:documentation "Destructively inserts objects after object by given index."))
 
 (def-w-generic remove-object-at (list index)
   (:documentation "Destructively removes object by given index."))
