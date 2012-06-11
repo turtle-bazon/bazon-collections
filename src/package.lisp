@@ -8,9 +8,13 @@
    :generic-marks
 
    :abstract-iterator
-   :has-next
-   :current
-   :next
+   :it-has-next
+   :it-has-prev
+   :it-current
+   :it-next
+   :it-prev
+   :it-before-first
+   :it-after-last
    
    :abstract-collection
    :size
@@ -22,12 +26,13 @@
    :clear
    :add-object
    :add-all-objects
-   :erase-object
-   :erase-all-objects
    :remove-object
    :remove-all-objects
+   :remove-object-at-iterator
+   :remove-all-objects-in-iterator
 
    :abstract-list
+   :array-index-out-of-bounds
    :index-of
    :get-object-at
    :set-object-at

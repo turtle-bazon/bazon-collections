@@ -40,17 +40,17 @@
 (def-w-generic add-all-objects (collection objects)
   (:documentation "Destructively adds all given objects to collection."))
 
-(def-w-generic erase-object (collection iterator)
-  (:documentation "Erase object at iterator's current position."))
-
-(def-w-generic erase-all-objects (collection iterator)
-  (:documentation "Sequentally removes all object given by iterator."))
-
 (def-w-generic remove-object (collection object)
   (:documentation "Destructively removes given object from collection"))
 
 (def-w-generic remove-all-objects (collection objects)
   (:documentation "Destructively removes all given objects from collection."))
+
+(def-w-generic remove-object-at-iterator (collection iterator)
+  (:documentation "Remove object at iterator's current position."))
+
+(def-w-generic remove-all-objects-in-iterator (collection iterator)
+  (:documentation "Sequentally removes all object given by iterator."))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -63,5 +63,5 @@
 
 (defmethod add-all-objects ((collection abstract-collection) (objects abstract-collection))
   (let ((iterator (iterator objects)))
-    (loop while (has-next iterator)
-	 do (add-object collection (next iterator)))))
+    (loop while (it-has-next iterator)
+	 do (add-object collection (it-next iterator)))))
