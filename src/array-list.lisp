@@ -4,13 +4,13 @@
 
 (defclass array-list (abstract-list)
   ((size
-    :type (integer 0 *)
+    :type fixnum
     :initform 0
     :documentation "Size of list.")
    (initial-capacity
-    :type (integer 1 *)
+    :type fixnum
     :initarg :initial-capacity
-    :initform 10
+    :initform 16
     :documentation "Back array capaciy grow step")
    (elements-array
     :type (simple-array t (*))
@@ -22,7 +22,7 @@
   ((array-list :initarg :array-list
 	       :type array-list)
    (current-index :initform -1
-		  :type (integer -1 *)))
+		  :type fixnum))
   (:documentation "Iterator over array list."))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -68,24 +68,25 @@
 
 #+nil(defmethod index-of)
 
-(defmethod get-object-at ((list array-list) (index integer))
+(defmethod get-object-at ((list array-list) (index fixnum))
   (with-slots (elements-array)
       list
     (aref elements-array index)))
 
-(defmethod set-object-at ((list array-list) (index integer) object)
+(defmethod set-object-at ((list array-list) (index fixnum) object)
   (with-slots (elements-array)
       list
     (setf (aref elements-array index) object)))
 
 (defun ensure-array-list-capacity (list need-size)
   (declare (type array-list list)
-	   (type integer need-size))
+	   (type fixnum need-size))
   (with-slots (size elements-array)
       list
     (when (> need-size (length elements-array))
-      (let ((new-array (make-array (* need-size 2))))
-	(dotimes (i size)
+      (let* ((new-size (expt 2 (+ 1 (floor (log need-size 2)))))
+	     (new-array (make-array new-size)))
+	(dotimes (i (the fixnum size))
 	  (setf (aref new-array i)
 		(aref elements-array i)))
 	(setf elements-array new-array)))))
@@ -97,21 +98,19 @@
      do (setf (aref elements-array (+ i count))
 	      (aref elements-array i))))
 
-(defmethod insert-object-before ((list array-list) (index integer) object)
+(defmethod insert-object-before ((list array-list) (index fixnum) object)
   (with-slots (size elements-array)
       list
     (when (and (< index 0)
 	       (> index size))
       (error 'list-index-out-of-bounds (format nil "op: insert, index: ~a, size: ~a" index size)))
     (ensure-array-list-capacity list (+ size 1))
-    (array-shift-right elements-array index (- size 1) 1)
+    (when (< index size)
+      (array-shift-right elements-array index (- size 1) 1))
     (setf (aref elements-array index) object)
     (incf size)))
 
-(defmethod insert-object-after ((list array-list) (index integer) object)
-  (insert-object-before list (+ index 1) object))
-
-(defmethod insert-objects-before ((list array-list) (index integer) objects)
+(defmethod insert-objects-before ((list array-list) (index fixnum) objects)
   (with-slots (size elements-array)
       list
     (when (and (< index 0)
@@ -119,23 +118,21 @@
       (error 'list-index-out-of-bounds (format nil "op: insert, index: ~a, size: ~a" index size)))
     (let ((insert-size (length objects)))
       (ensure-array-list-capacity list (+ size insert-size))
-      (array-shift-right elements-array index (- size 1) insert-size)
+      (when (< index size)
+	(array-shift-right elements-array index (- size 1) insert-size))
       (if (typep objects 'abstract-collection)
 	  (let ((iterator (iterator (the abstract-collection objects))))
 	    (loop
-	       for insert-index from index
-	       while (it-has-next iterator)
-	       do (setf (aref elements-array insert-index) (it-next iterator))))
+	      for insert-index from index
+	      while (it-next iterator)
+	      do (setf (aref elements-array insert-index) (it-current iterator))))
 	  (loop
-	     for object in objects
-	     for insert-index from index
-	     do (setf (aref elements-array insert-index) object)))      
+	    for object in objects
+	    for insert-index from index
+	    do (setf (aref elements-array insert-index) object)))      
       (incf size insert-size))))
 
-(defmethod insert-objects-after ((list array-list) (index integer) objects)
-  (insert-object-before list (+ index 1) objects))
-
-(defmethod remove-object-at ((list array-list) (index integer))
+(defmethod remove-object-at ((list array-list) (index fixnum))
   (with-slots (size elements-array)
       list
     (when (and (< index 0)
@@ -148,16 +145,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defmethod it-has-next ((iterator array-list-iterator))
-  (with-slots (array-list current-index)
-      iterator
-    (> (- (slot-value array-list 'size) current-index) 1)))
-
-(defmethod it-has-prev ((iterator array-list-iterator))
-  (with-slots (current-index)
-      iterator
-    (> current-index 0)))
-
 (defmethod it-current ((iterator array-list-iterator))
   (with-slots (array-list current-index)
       iterator
@@ -166,23 +153,21 @@
 (defmethod it-next ((iterator array-list-iterator))
   (with-slots (array-list current-index)
       iterator
-    (with-slots (size elements-array)
-	array-list
-      (if (it-has-next iterator)
-	  (progn
-	    (incf current-index)
-	    (aref elements-array current-index))
-	  (error 'list-index-out-of-bounds
-		 :text (format nil "op: next, index: ~a, size: ~a" (+ current-index 1) size))))))
+    (incf current-index)
+    (in-range-p array-list current-index)))
 
 (defmethod it-prev ((iterator array-list-iterator))
   (with-slots (array-list current-index)
       iterator
-    (with-slots (size elements-array)
-	array-list
-      (if (it-has-prev iterator)
-	  (progn
-	    (decf current-index)
-	    (aref elements-array current-index))
-	  (error 'list-index-out-of-bounds
-		 :text (format nil "op: prev, index: ~a, size: ~a" (- current-index 1) size))))))
+    (decf current-index)
+    (in-range-p array-list current-index)))
+
+(defmethod it-before-first ((iterator array-list-iterator))
+  (with-slots (current-index)
+      iterator
+    (setf current-index -1)))
+
+(defmethod it-after-last ((iterator array-list-iterator))
+  (with-slots (array-list current-index)
+      iterator
+    (setf current-index (slot-value array-list 'size))))

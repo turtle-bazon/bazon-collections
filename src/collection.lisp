@@ -63,5 +63,5 @@
 
 (defmethod add-all-objects ((collection abstract-collection) (objects abstract-collection))
   (let ((iterator (iterator objects)))
-    (loop while (it-has-next iterator)
-	 do (add-object collection (it-next iterator)))))
+    (loop while (it-next iterator)
+	 do (add-object collection (it-current iterator)))))

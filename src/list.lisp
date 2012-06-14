@@ -6,8 +6,8 @@
   ()
   (:documentation "Collection of ordered elements."))
 
-(def-r-generic sub-list (list start-index end-index)
-  (:documentation "Returns new list that sublist of given list (start-index inclusive and end-index exclusive)"))
+(def-r-generic in-range-p (list index)
+  (:documentation "Test whether given index in list range."))
 
 (def-r-generic index-of (list object)
   (:documentation "Returns index of given object."))
@@ -41,3 +41,15 @@
   (:documentation "Error of index out of bounds."))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defmethod in-range-p ((list abstract-list) (index fixnum))
+  (with-slots (size)
+      list
+    (and (>= index 0)
+	 (< index size))))
+
+(defmethod insert-object-after ((list abstract-list) (index fixnum) object)
+  (insert-object-before list (+ index 1) object))
+
+(defmethod insert-objects-after ((list abstract-list) (index fixnum) objects)
+  (insert-object-before list (+ index 1) objects))

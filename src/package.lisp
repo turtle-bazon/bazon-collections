@@ -8,8 +8,6 @@
    :generic-marks
 
    :abstract-iterator
-   :it-has-next
-   :it-has-prev
    :it-current
    :it-next
    :it-prev
@@ -33,6 +31,7 @@
 
    :abstract-list
    :array-index-out-of-bounds
+   :in-range-p
    :index-of
    :get-object-at
    :set-object-at
