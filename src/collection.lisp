@@ -13,6 +13,9 @@
    "Root class for collections.
     Collection is a group of objects."))
 
+(def-r-generic oequal-p (collection o1 o2)
+  (:documentation "Tests for objects equality using :test and :hash functions. Users should initialize collection with it's own equal and hash providers to overwrite equality function."))
+
 (def-r-generic size (collection)
   (:documentation "Returns size of collection."))
 
@@ -54,8 +57,25 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defmethod oequal-p ((collection abstract-collection) o1 o2)
+  (with-slots (test hash)
+      collection
+    (and o1 o2
+	 (= (funcall hash o1)
+	    (funcall hash o2))
+	 (funcall test o1 o2))))
+
 (defmethod empty-p ((collection abstract-collection))
   (= 0 (size collection)))
+
+(defmethod find-object ((collection abstract-collection) object)
+  (let ((iterator (iterator collection)))
+    (loop while (it-next iterator)
+	  when (oequal-p collection object (it-current iterator))
+	    return iterator)))
+
+(defmethod find-all-objects ((collection abstract-collection) condition)
+  (iterator collection condition))
 
 (defmethod add-all-objects ((collection abstract-collection) objects)
   (loop for object in objects
