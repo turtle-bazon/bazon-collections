@@ -86,7 +86,7 @@
     (when (> need-size (length elements-array))
       (let* ((new-size (expt 2 (+ 1 (floor (log need-size 2)))))
 	     (new-array (make-array new-size)))
-	(dotimes (i (the fixnum size))
+	(dotimes (i size)
 	  (setf (aref new-array i)
 		(aref elements-array i)))
 	(setf elements-array new-array)))))
