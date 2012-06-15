@@ -18,11 +18,15 @@
     :documentation "Back array"))
   (:documentation "List based on using arrays."))
 
+(deftype al-it-direction () '(member :STEP-FORWARD :STEP-BACKWARD :STEP-UNKNOWN))
+
 (defclass array-list-iterator (abstract-iterator)
   ((array-list :initarg :array-list
 	       :type array-list)
    (current-index :initform -1
-		  :type fixnum))
+		  :type fixnum)
+   (prev-step :initform :STEP-UNKNOWN
+	      :type keyword))
   (:documentation "Iterator over array list."))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -54,11 +58,16 @@
 (defmethod add-all-objects ((list array-list) objects)
   (insert-objects-before list (slot-value list 'size) objects))
 
-#+nil(defmethod remove-object-at-iterator)
+(defmethod remove-object-at-iterator ((list array-list) (iterator array-list-iterator))
+  (with-slots (current-index prev-step)
+      iterator
+    (remove-object-at list current-index)
+    (ecase prev-step
+      (:STEP-FORWARD (decf current-index))
+      (:STEP-BACKWARD (incf current-index)))))
 
-#+nil(defmethod remove-all-objects-in-iterator)
-
-#+nil(defmethod index-of)
+#+nil(defmethod remove-all-objects-in-iterator ((list array-list) (iterator array-list-iterator))
+  )
 
 (defmethod get-object-at ((list array-list) (index fixnum))
   (with-slots (elements-array)
@@ -142,23 +151,27 @@
     (svref (slot-value array-list 'elements-array) current-index)))
 
 (defmethod it-next ((iterator array-list-iterator))
-  (with-slots (array-list current-index)
+  (with-slots (array-list current-index prev-step)
       iterator
     (incf current-index)
+    (setf prev-step :STEP-FORWARD)
     (in-range-p array-list current-index)))
 
 (defmethod it-prev ((iterator array-list-iterator))
-  (with-slots (array-list current-index)
+  (with-slots (array-list current-index prev-step)
       iterator
     (decf current-index)
+    (setf prev-step :STEP-BACKWARD)
     (in-range-p array-list current-index)))
 
 (defmethod it-before-first ((iterator array-list-iterator))
-  (with-slots (current-index)
+  (with-slots (current-index prev-step)
       iterator
-    (setf current-index -1)))
+    (setf current-index -1)
+    (setf prev-step :STEP-UNKNOWN)))
 
 (defmethod it-after-last ((iterator array-list-iterator))
-  (with-slots (array-list current-index)
+  (with-slots (array-list current-index prev-step)
       iterator
-    (setf current-index (slot-value array-list 'size))))
+    (setf current-index (slot-value array-list 'size))
+    (setf prev-step :STEP-UNKNOWN)))

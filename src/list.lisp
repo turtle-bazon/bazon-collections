@@ -53,3 +53,6 @@
 
 (defmethod insert-objects-after ((list abstract-list) (index fixnum) objects)
   (insert-object-before list (+ index 1) objects))
+
+#+nil(defmethod index-of)
+

@@ -20,3 +20,44 @@
 
 (def-w-generic it-after-last (iterator)
   (:documentation "Move cursor after last object."))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defclass conditional-iterator (abstract-iterator)
+  ((back-iterator
+    :initform (error "Specify back iterator.")
+    :type abstract-iterator
+    :documentation "Back iterator without condition.")
+   (condition
+    :initform (error "Specify iterator condition.")
+    :documentation "Function of one argument returning true or false."))
+  (:documentation "Iterator that iterates to object by given condition."))
+
+(defmethod it-current ((iterator conditional-iterator))
+  (with-slots (back-iterator)
+      iterator
+    (it-current back-iterator)))
+
+(defmethod it-next ((iterator conditional-iterator))
+  (with-slots (back-iterator condition)
+      iterator
+    (loop while (it-next back-iterator)
+	  when (funcall condition (it-current back-iterator))
+	    return t)))
+
+(defmethod it-prev ((iterator conditional-iterator))
+  (with-slots (back-iterator condition)
+      iterator
+    (loop while (it-prev back-iterator)
+	  when (funcall condition (it-current back-iterator))
+	    return t)))
+
+(defmethod it-before-first ((iterator conditional-iterator))
+  (with-slots (back-iterator)
+      iterator
+    (it-before-first back-iterator)))
+
+(defmethod it-after-last ((iterator conditional-iterator))
+  (with-slots (back-iterator)
+      iterator
+    (it-after-last back-iterator)))
