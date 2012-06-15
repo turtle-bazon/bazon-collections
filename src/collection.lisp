@@ -68,6 +68,9 @@
 (defmethod empty-p ((collection abstract-collection))
   (= 0 (size collection)))
 
+(defmethod contains ((collection abstract-collection) object)
+  (not (null (find-object collection object))))
+
 (defmethod find-object ((collection abstract-collection) object)
   (let ((iterator (iterator collection)))
     (loop while (it-next iterator)
@@ -85,3 +88,24 @@
   (let ((iterator (iterator objects)))
     (loop while (it-next iterator)
 	 do (add-object collection (it-current iterator)))))
+
+(defmethod remove-object ((collection abstract-collection) object)
+  (remove-object-at-iterator collection (find-object collection object)))
+
+(defmethod remove-all-objects ((collection abstract-collection) objects)
+  (remove-all-objects-in-iterator
+   collection
+   (find-all-objects
+    collection
+    (lambda (object)
+      (member object objects
+	      :test (lambda (o1 o2)
+		      (oequal-p collection o1 o2)))))))
+
+(defmethod remove-all-objects ((collection abstract-collection) (objects abstract-collection))
+  (remove-all-objects-in-iterator
+   collection
+   (find-all-objects
+    collection
+    (lambda (object)
+      (contains collection object)))))

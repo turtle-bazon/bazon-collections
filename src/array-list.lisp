@@ -54,10 +54,6 @@
 (defmethod add-all-objects ((list array-list) objects)
   (insert-objects-before list (slot-value list 'size) objects))
 
-#+nil(defmethod remove-object)
-
-#+nil(defmethod remove-all-objects)
-
 #+nil(defmethod remove-object-at-iterator)
 
 #+nil(defmethod remove-all-objects-in-iterator)
