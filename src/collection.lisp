@@ -80,7 +80,7 @@
 (defmethod find-all-objects ((collection abstract-collection) condition)
   (iterator collection condition))
 
-(defmethod add-all-objects ((collection abstract-collection) objects)
+(defmethod add-all-objects ((collection abstract-collection) (objects list))
   (loop for object in objects
        do (add-object collection object)))
 
@@ -92,7 +92,7 @@
 (defmethod remove-object ((collection abstract-collection) object)
   (remove-object-at-iterator collection (find-object collection object)))
 
-(defmethod remove-all-objects ((collection abstract-collection) objects)
+(defmethod remove-all-objects ((collection abstract-collection) (objects list))
   (remove-all-objects-in-iterator
    collection
    (find-all-objects
@@ -109,3 +109,7 @@
     collection
     (lambda (object)
       (contains collection object)))))
+
+(defmethod remove-all-objects-in-iterator ((collection abstract-collection) (iterator abstract-iterator))
+  (loop while (it-next iterator)
+     do (remove-object-at-iterator collection iterator)))

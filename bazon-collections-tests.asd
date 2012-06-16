@@ -10,4 +10,8 @@
   :components ((:module tests
                         :components
 			((:file "package")
-			 (:file "bazon-collections-tests" :depends-on ("package"))))))
+			 (:file "collection-tests"
+				:depends-on ("package"))
+			 (:file "bazon-collections-tests"
+				:depends-on ("package"
+					     "collection-tests"))))))

@@ -4,6 +4,12 @@
 
 (deftestsuite test-bazon-collections () ())
 
+(addtest
+    test-array-list
+  (let ((constructor-function (lambda ()
+				(make-instance 'array-list))))
+    (test-collection 'array-list constructor-function)))
+
 #+nil(addtest
     test-simple-pooling
   (let ((threads-before-start (length (bordeaux-threads:all-threads)))

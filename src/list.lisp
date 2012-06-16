@@ -42,6 +42,12 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defmethod add-object ((list abstract-list) object)
+  (insert-object-before list (slot-value list 'size) object))
+
+(defmethod add-all-objects ((list abstract-list) objects)
+  (insert-objects-before list (slot-value list 'size) objects))
+
 (defmethod in-range-p ((list abstract-list) (index fixnum))
   (with-slots (size)
       list
@@ -55,4 +61,3 @@
   (insert-object-before list (+ index 1) objects))
 
 #+nil(defmethod index-of)
-

@@ -6,6 +6,9 @@
   ()
   (:documentation "Common iterator interface."))
 
+(def-r-generic it-native-iterator (iterator)
+  (:documentation "Return native (begin of begin and collection specific) iterator in possible decorated iterator. Returns self for native collection iterators."))
+
 (def-r-generic it-current (iterator)
   (:documentation "Access to current object in iterator."))
 
@@ -23,12 +26,27 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defclass conditional-iterator (abstract-iterator)
+(defmethod it-native-iterator ((iterator abstract-iterator))
+  iterator)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defclass abstract-decorating-iterator (abstract-iterator)
   ((back-iterator
+    :initarg :back-iterator
     :initform (error "Specify back iterator.")
     :type abstract-iterator
-    :documentation "Back iterator without condition.")
-   (condition
+    :documentation "Back iterator without condition."))
+  (:documentation "Abstract decorating iterator over another iterator."))
+
+(defmethod it-native-iterator ((iterator abstract-decorating-iterator))
+  (slot-value iterator 'back-iterator))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defclass conditional-iterator (abstract-decorating-iterator)
+  ((condition
+    :initarg :condition
     :initform (error "Specify iterator condition.")
     :documentation "Function of one argument returning true or false."))
   (:documentation "Iterator that iterates to object by given condition."))
