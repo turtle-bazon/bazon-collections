@@ -7,8 +7,10 @@
 (addtest
     test-array-list
   (let ((constructor-function (lambda ()
-				(make-instance 'array-list))))
-    (test-collection 'array-list constructor-function)))
+				(make-instance 'array-list)))
+	(element-function (lambda (object)
+			    object)))
+    (test-collection 'array-list constructor-function element-function)))
 
 #+nil(addtest
     test-simple-pooling
