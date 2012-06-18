@@ -19,22 +19,20 @@
 	 (element-function-entity (number)
 	   (make-instance 'test-entity :number number))
 	 (de-e-entity (number-entity)
-	   (slot-value number-entity 'number))
-	 (oddp-entity (number-entity)
-	   (oddp (slot-value number-entity 'number)))
-	 (evenp-entity (number-entity)
-	   (evenp (slot-value number-entity 'number))))
+	   (slot-value number-entity 'number)))
     (test-collection 'array-list
 		     #'constructor-function
 		     #'element-function
-		     #'de-e
-		     #'=
-		     #'oddp
-		     #'evenp)
+		     #'de-e)
     (test-collection 'array-list
 		     #'constructor-function-entity
 		     #'element-function-entity
-		     #'de-e-entity
-		     #'test-entity-equal
-		     #'oddp-entity
-		     #'evenp-entity)))
+		     #'de-e-entity)
+    (test-list 'array-list
+	       #'constructor-function
+	       #'element-function
+	       #'de-e)
+    (test-list 'array-list
+	       #'constructor-function-entity
+	       #'element-function-entity
+	       #'de-e-entity)))
