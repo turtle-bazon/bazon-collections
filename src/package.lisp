@@ -8,6 +8,9 @@
    :generic-marks
 
    :abstract-iterator
+   :abstract-decorating-iterator
+   :conditional-iterator
+   :built-in-list-iterator
    :it-current
    :it-next
    :it-prev
@@ -26,8 +29,6 @@
    :add-all-objects
    :remove-object
    :remove-all-objects
-   :remove-object-at-iterator
-   :remove-all-objects-in-iterator
 
    :abstract-list
    :array-index-out-of-bounds

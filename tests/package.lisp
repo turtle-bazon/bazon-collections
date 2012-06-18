@@ -12,6 +12,23 @@
 
 (in-package :ru.bazon.bazon-collections-tests)
 
+(defclass test-entity ()
+  ((number :initarg :number
+	   :type integer
+	   :initform (error "Define number!!!")))
+  (:documentation "Entity for test hash and test functions."))
+
+(defun test-entity-hash (test-entity)
+  (declare (type test-entity test-entity))
+  (with-slots (number)
+      test-entity
+    (sxhash number)))
+
+(defun test-entity-equal (te1 te2)
+  (declare (type test-entity te1 te2))
+  (= (slot-value te1 'number)
+     (slot-value te2 'number)))
+
 ;;;
 ;;; run-tests
 ;;;

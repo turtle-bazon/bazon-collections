@@ -79,3 +79,29 @@
   (with-slots (back-iterator)
       iterator
     (it-after-last back-iterator)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defclass built-in-list-iterator (abstract-iterator)
+  ((list :initarg :list
+	 :initform (error "Define list")
+	 :type list))
+  (:documentation "Iterator over built-in list type (only forward)."))
+
+(defmethod initialize-instance :after ((iterator built-in-list-iterator) &key list)
+  (with-slots ((it-list list))
+      iterator
+    (setf it-list (cons :BEFORE-LIST list))))
+
+(defmethod it-current ((iterator built-in-list-iterator))
+  (with-slots (list)
+      iterator
+    (if (eq list '())
+	:AFTER-LIST
+	(first list))))
+
+(defmethod it-next ((iterator built-in-list-iterator))
+  (with-slots (list)
+      iterator
+    (setf list (rest list))
+    (not (eq list '()))))

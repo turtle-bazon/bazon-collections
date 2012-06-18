@@ -49,12 +49,6 @@
 (def-w-generic remove-all-objects (collection objects)
   (:documentation "Destructively removes all given objects from collection."))
 
-(def-w-generic remove-object-at-iterator (collection iterator)
-  (:documentation "Remove object at iterator's current position."))
-
-(def-w-generic remove-all-objects-in-iterator (collection iterator)
-  (:documentation "Sequentally removes all object given by iterator."))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmethod oequal-p ((collection abstract-collection) o1 o2)
@@ -81,19 +75,22 @@
   (iterator collection condition))
 
 (defmethod add-all-objects ((collection abstract-collection) (objects list))
-  (loop for object in objects
-       do (add-object collection object)))
+  (let ((iterator (make-instance 'built-in-list-iterator :list objects)))
+    (add-all-objects collection iterator)))
 
 (defmethod add-all-objects ((collection abstract-collection) (objects abstract-collection))
   (let ((iterator (iterator objects)))
-    (loop while (it-next iterator)
-	 do (add-object collection (it-current iterator)))))
+    (add-all-objects collection iterator)))
+
+(defmethod add-all-objects ((collection abstract-collection) (iterator abstract-iterator))
+  (loop while (it-next iterator)
+	do (add-object collection (it-current iterator))))
 
 (defmethod remove-object ((collection abstract-collection) object)
-  (remove-object-at-iterator collection (find-object collection object)))
+  (remove-object collection (find-object collection object)))
 
 (defmethod remove-all-objects ((collection abstract-collection) (objects list))
-  (remove-all-objects-in-iterator
+  (remove-all-objects
    collection
    (find-all-objects
     collection
@@ -103,13 +100,13 @@
 		      (oequal-p collection o1 o2)))))))
 
 (defmethod remove-all-objects ((collection abstract-collection) (objects abstract-collection))
-  (remove-all-objects-in-iterator
+  (remove-all-objects
    collection
    (find-all-objects
     collection
     (lambda (object)
       (contains collection object)))))
 
-(defmethod remove-all-objects-in-iterator ((collection abstract-collection) (iterator abstract-iterator))
+(defmethod remove-all-objects ((collection abstract-collection) (iterator abstract-iterator))
   (loop while (it-next iterator)
-     do (remove-object-at-iterator collection iterator)))
+     do (remove-object collection iterator)))

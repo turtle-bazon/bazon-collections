@@ -53,7 +53,7 @@
 	 do (setf (svref elements-array i) nil))
     (setf size 0)))
 
-(defmethod remove-object-at-iterator ((list array-list) (iterator abstract-iterator))
+(defmethod remove-object ((list array-list) (iterator abstract-iterator))
   (let ((native-iterator (it-native-iterator iterator)))
     (with-slots (current-index prev-step)
 	native-iterator
