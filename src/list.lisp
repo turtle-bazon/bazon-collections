@@ -54,6 +54,13 @@
     (and (>= index 0)
 	 (< index size))))
 
+(defmethod index-of ((list abstract-list) object)
+  (let ((iterator (iterator list)))
+    (loop for index from 0
+	  while (it-next iterator)
+	  when (oequal-p list object (it-current iterator))
+	    return index)))
+
 (defmethod insert-object-after ((list abstract-list) (index fixnum) object)
   (insert-object-before list (+ index 1) object))
 
@@ -65,5 +72,3 @@
 
 (defmethod insert-all-objects-after ((list abstract-list) (index fixnum) objects)
   (insert-all-objects-before list (+ index 1) objects))
-
-#+nil(defmethod index-of)
