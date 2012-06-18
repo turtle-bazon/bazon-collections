@@ -31,6 +31,7 @@
    :remove-all-objects
 
    :abstract-list
+   :array-list
    :array-index-out-of-bounds
    :in-range-p
    :index-of
@@ -38,11 +39,9 @@
    :set-object-at
    :insert-object-before
    :insert-object-after
-   :insert-objects-before
-   :insert-objects-after
+   :insert-all-objects-before
+   :insert-all-objects-after
    :remove-object-at
-
-   :array-list
    
    :abstract-linear-list
    :peek-object

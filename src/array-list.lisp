@@ -103,7 +103,7 @@
     (setf (svref elements-array index) object)
     (incf size)))
 
-(defmethod insert-objects-before ((list array-list) (index fixnum) (objects list))
+(defmethod insert-all-objects-before ((list array-list) (index fixnum) (objects list))
   (with-slots (size elements-array)
       list
     (when (and (< index 0)
@@ -119,7 +119,7 @@
 	 do (setf (svref elements-array insert-index) object))
       (incf size insert-size))))
 
-(defmethod insert-objects-before ((list array-list) (index fixnum) (objects abstract-collection))
+(defmethod insert-all-objects-before ((list array-list) (index fixnum) (objects abstract-collection))
   (with-slots (size elements-array)
       list
     (when (and (< index 0)

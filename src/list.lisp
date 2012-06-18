@@ -24,10 +24,10 @@
 (def-w-generic insert-object-after (list index object)
   (:documentation "Destructively inserts object after object by given index."))
 
-(def-w-generic insert-objects-before (list index object)
+(def-w-generic insert-all-objects-before (list index object)
   (:documentation "Destructively inserts objects before object by given index."))
 
-(def-w-generic insert-objects-after (list index object)
+(def-w-generic insert-all-objects-after (list index object)
   (:documentation "Destructively inserts objects after object by given index."))
 
 (def-w-generic remove-object-at (list index)
@@ -46,7 +46,7 @@
   (insert-object-before list (slot-value list 'size) object))
 
 (defmethod add-all-objects ((list abstract-list) objects)
-  (insert-objects-before list (slot-value list 'size) objects))
+  (insert-all-objects-before list (slot-value list 'size) objects))
 
 (defmethod in-range-p ((list abstract-list) (index fixnum))
   (with-slots (size)
@@ -57,7 +57,13 @@
 (defmethod insert-object-after ((list abstract-list) (index fixnum) object)
   (insert-object-before list (+ index 1) object))
 
-(defmethod insert-objects-after ((list abstract-list) (index fixnum) objects)
-  (insert-object-before list (+ index 1) objects))
+(defmethod insert-all-objects-before ((list abstract-list) (index fixnum) (iterator abstract-iterator))
+  (loop for insert-index from index
+	while (it-next iterator)
+	do (insert-object-before list insert-index
+				 (it-current iterator))))
+
+(defmethod insert-all-objects-after ((list abstract-list) (index fixnum) objects)
+  (insert-all-objects-before list (+ index 1) objects))
 
 #+nil(defmethod index-of)
