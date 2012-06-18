@@ -12,6 +12,9 @@
 			((:file "package")
 			 (:file "collection-tests"
 				:depends-on ("package"))
+			 (:file "list-tests"
+				:depends-on ("package"))
 			 (:file "bazon-collections-tests"
 				:depends-on ("package"
-					     "collection-tests"))))))
+					     "collection-tests"
+					     "list-tests"))))))

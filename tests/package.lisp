@@ -29,6 +29,9 @@
   (= (slot-value te1 'number)
      (slot-value te2 'number)))
 
+(defun report-name (collection-class name)
+  (format nil "~a: ~a" collection-class name))
+
 ;;;
 ;;; run-tests
 ;;;
