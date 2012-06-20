@@ -64,11 +64,19 @@
 (defmethod insert-object-after ((list abstract-list) (index fixnum) object)
   (insert-object-before list (+ index 1) object))
 
+(defmethod insert-all-objects-before ((list abstract-list) (index abstract-iterator) (iterator abstract-iterator))
+  (loop while (it-next iterator)
+	do (insert-object-before list index (it-current iterator))))
+
 (defmethod insert-all-objects-before ((list abstract-list) (index fixnum) (iterator abstract-iterator))
   (loop for insert-index from index
 	while (it-next iterator)
 	do (insert-object-before list insert-index
 				 (it-current iterator))))
+
+(defmethod insert-all-objects-after ((list abstract-list) (index abstract-iterator) (iterator abstract-iterator))
+  (loop while (it-next iterator)
+	do (insert-object-after list index (it-current iterator))))
 
 (defmethod insert-all-objects-after ((list abstract-list) (index fixnum) objects)
   (insert-all-objects-before list (+ index 1) objects))

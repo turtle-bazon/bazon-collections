@@ -91,6 +91,12 @@
      do (setf (svref elements-array (+ i count))
 	      (svref elements-array i))))
 
+(defmethod insert-object-before ((list array-list) (index array-list-iterator) object)
+  (with-slots (current-index)
+      index
+    (insert-object-before list current-index object)
+    (incf current-index)))
+
 (defmethod insert-object-before ((list array-list) (index fixnum) object)
   (with-slots (size elements-array)
       list
@@ -102,6 +108,24 @@
       (array-shift-right elements-array index (- size 1) 1))
     (setf (svref elements-array index) object)
     (incf size)))
+
+(defmethod insert-object-after ((list array-list) (index array-list-iterator) object)
+  (with-slots (current-index)
+      index
+    (print current-index)
+    (insert-object-after list current-index object)))
+
+(defmethod insert-all-objects-before ((list array-list) (index array-list-iterator) (objects list))
+  (with-slots (current-index)
+      index
+    (insert-all-objects-before list current-index objects)
+    (incf current-index (length objects))))
+
+(defmethod insert-all-objects-before ((list array-list) (index array-list-iterator) (objects abstract-collection))
+  (with-slots (current-index)
+      index
+    (insert-all-objects-before list current-index objects)
+    (incf current-index (size objects))))
 
 (defmethod insert-all-objects-before ((list array-list) (index fixnum) (objects list))
   (with-slots (size elements-array)

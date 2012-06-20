@@ -111,10 +111,10 @@
     (insert-object-after list iterator (funcall element-function 24))
     (ensure-same 23 (funcall de-e (get-object-at list 0))
 		 :report (report-name list-class "23 is at 0 after insert i"))
-    (ensure-same 24 (funcall de-e (get-object-at list 1))
-		 :report (report-name list-class "24 is at 2 after insert i"))
     (ensure-same 21 (funcall de-e (get-object-at list 2))
-		 :report (report-name list-class "21 is at 1 after insert i"))))
+		 :report (report-name list-class "21 is at 1 after insert i"))
+    (ensure-same 24 (funcall de-e (get-object-at list 1))
+		 :report (report-name list-class "24 is at 2 after insert i"))))
 
 (defun test-insert-all-objects-i (list-class list element-function de-e)
   (let ((iterator (iterator list)))
