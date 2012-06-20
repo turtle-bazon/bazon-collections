@@ -105,19 +105,19 @@
 	       :report (report-name list-class "21 is at 0 after remove at 0")))
 
 (defun test-insert-object-at-iterator (list-class list element-function de-e)
-  (let ((iterator (iterator list)))
+  (let ((iterator (c-it (iterator list))))
     (it-next iterator)
     (insert-object-before list iterator (funcall element-function 23))
     (insert-object-after list iterator (funcall element-function 24))
     (ensure-same 23 (funcall de-e (get-object-at list 0))
 		 :report (report-name list-class "23 is at 0 after insert i"))
-    (ensure-same 21 (funcall de-e (get-object-at list 2))
+    (ensure-same 21 (funcall de-e (get-object-at list 1))
 		 :report (report-name list-class "21 is at 1 after insert i"))
-    (ensure-same 24 (funcall de-e (get-object-at list 1))
+    (ensure-same 24 (funcall de-e (get-object-at list 2))
 		 :report (report-name list-class "24 is at 2 after insert i"))))
 
 (defun test-insert-all-objects-i (list-class list element-function de-e)
-  (let ((iterator (iterator list)))
+  (let ((iterator (c-it (iterator list))))
     (it-next iterator)
     (insert-all-objects-before list iterator (mapcar element-function '(25 26)))
     (insert-all-objects-after list iterator (mapcar element-function '(27 28)))
@@ -131,12 +131,12 @@
 		 :report (report-name list-class "28 is at 4 after insert all i"))))
 
 (defun test-insert-all-objects-i-c (list-class list constructor-function element-function de-e)
-  (let ((iterator (iterator list)))
+  (let ((iterator (c-it (iterator list))))
     (it-next iterator)
     (let ((add-list-1 (funcall constructor-function))
 	  (add-list-2 (funcall constructor-function)))
       (add-all-objects add-list-1 (mapcar element-function '(29 30)))
-      (add-all-objects add-list-1 (mapcar element-function '(31 32)))
+      (add-all-objects add-list-2 (mapcar element-function '(31 32)))
       (insert-all-objects-before list iterator add-list-1)
       (insert-all-objects-after list iterator add-list-2)
       (ensure-same 29 (funcall de-e (get-object-at list 0))
@@ -149,7 +149,7 @@
 		   :report (report-name list-class "32 is at 4 after insert all i c")))))
 
 (defun test-insert-all-objects-i-i (list-class list element-function de-e)
-  (let ((iterator (iterator list)))
+  (let ((iterator (c-it (iterator list))))
     (it-next iterator)
     (insert-all-objects-before
      list iterator

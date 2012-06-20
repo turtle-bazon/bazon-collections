@@ -29,6 +29,11 @@
   (= (slot-value te1 'number)
      (slot-value te2 'number)))
 
+(defun c-it (iterator)
+  (make-instance 'conditional-iterator
+		 :condition (lambda (o) t)
+		 :back-iterator iterator))
+
 (defun report-name (collection-class name)
   (format nil "~a: ~a" collection-class name))
 

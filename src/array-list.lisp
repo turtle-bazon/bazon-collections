@@ -91,11 +91,12 @@
      do (setf (svref elements-array (+ i count))
 	      (svref elements-array i))))
 
-(defmethod insert-object-before ((list array-list) (index array-list-iterator) object)
-  (with-slots (current-index)
-      index
-    (insert-object-before list current-index object)
-    (incf current-index)))
+(defmethod insert-object-before ((list array-list) (index abstract-iterator) object)
+  (let ((iterator (it-native-iterator index)))
+    (with-slots (current-index)
+	iterator
+      (insert-object-before list current-index object)
+      (incf current-index))))
 
 (defmethod insert-object-before ((list array-list) (index fixnum) object)
   (with-slots (size elements-array)
@@ -109,23 +110,25 @@
     (setf (svref elements-array index) object)
     (incf size)))
 
-(defmethod insert-object-after ((list array-list) (index array-list-iterator) object)
-  (with-slots (current-index)
-      index
-    (print current-index)
-    (insert-object-after list current-index object)))
+(defmethod insert-object-after ((list array-list) (index abstract-iterator) object)
+  (let ((iterator (it-native-iterator index)))
+    (with-slots (current-index)
+	iterator
+      (insert-object-after list current-index object))))
 
-(defmethod insert-all-objects-before ((list array-list) (index array-list-iterator) (objects list))
-  (with-slots (current-index)
-      index
-    (insert-all-objects-before list current-index objects)
-    (incf current-index (length objects))))
+(defmethod insert-all-objects-before ((list array-list) (index abstract-iterator) (objects list))
+  (let ((iterator (it-native-iterator index)))
+    (with-slots (current-index)
+	iterator
+      (insert-all-objects-before list current-index objects)
+      (incf current-index (length objects)))))
 
-(defmethod insert-all-objects-before ((list array-list) (index array-list-iterator) (objects abstract-collection))
-  (with-slots (current-index)
-      index
-    (insert-all-objects-before list current-index objects)
-    (incf current-index (size objects))))
+(defmethod insert-all-objects-before ((list array-list) (index abstract-iterator) (objects abstract-collection))
+  (let ((iterator (it-native-iterator index)))
+    (with-slots (current-index)
+	iterator
+      (insert-all-objects-before list current-index objects)
+      (incf current-index (size objects)))))
 
 (defmethod insert-all-objects-before ((list array-list) (index fixnum) (objects list))
   (with-slots (size elements-array)
@@ -159,6 +162,12 @@
 	      while (it-next iterator)
 	      do (setf (svref elements-array insert-index) (it-current iterator))))
       (incf size insert-size))))
+
+(defmethod insert-all-objects-after ((list array-list) (index abstract-iterator) objects)
+  (let ((iterator (it-native-iterator index)))
+    (with-slots (current-index)
+	iterator
+      (insert-all-objects-after list current-index objects))))
 
 (defmethod remove-object-at ((list array-list) (index fixnum))
   (with-slots (size elements-array)
