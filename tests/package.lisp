@@ -13,9 +13,10 @@
 (in-package :ru.bazon.bazon-collections-tests)
 
 (defclass test-entity ()
-  ((number :initarg :number
-	   :type integer
-	   :initform (error "Define number!!!")))
+  ((number
+    :initarg :number
+    :type integer
+    :initform (error "Define number!!!")))
   (:documentation "Entity for test hash and test functions."))
 
 (defun test-entity-hash (test-entity)

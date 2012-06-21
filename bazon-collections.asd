@@ -22,6 +22,10 @@
 				:depends-on ("package"
 					     "list"
 					     "iterator"))
+			 (:file "linked-list"
+				:depends-on ("package"
+					     "list"
+					     "iterator"))
 			 (:file "linear-list"
 				:depends-on ("package"
 					     "collection"))

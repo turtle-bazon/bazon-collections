@@ -21,12 +21,15 @@
 (deftype al-it-direction () '(member :STEP-FORWARD :STEP-BACKWARD :STEP-UNKNOWN))
 
 (defclass array-list-iterator (abstract-iterator)
-  ((array-list :initarg :array-list
-	       :type array-list)
-   (current-index :initform -1
-		  :type fixnum)
-   (prev-step :initform :STEP-UNKNOWN
-	      :type keyword))
+  ((array-list
+    :initarg :array-list
+    :type array-list)
+   (current-index
+    :initform -1
+    :type fixnum)
+   (prev-step
+    :initform :STEP-UNKNOWN
+    :type keyword))
   (:documentation "Iterator over array list."))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

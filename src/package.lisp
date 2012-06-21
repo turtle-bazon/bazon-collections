@@ -32,6 +32,7 @@
 
    :abstract-list
    :array-list
+   :linked-list
    :array-index-out-of-bounds
    :in-range-p
    :index-of

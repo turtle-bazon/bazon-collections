@@ -35,3 +35,9 @@
   (start-collection-test 'array-list
 			 (list #'test-collection
 			       #'test-list)))
+
+(addtest
+    test-linked-list
+  (start-collection-test 'linked-list
+			 (list #'test-collection
+			       #'test-list)))
