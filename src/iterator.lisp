@@ -40,7 +40,7 @@
   (:documentation "Abstract decorating iterator over another iterator."))
 
 (defmethod it-native-iterator ((iterator abstract-decorating-iterator))
-  (slot-value iterator 'back-iterator))
+  (it-native-iterator (slot-value iterator 'back-iterator)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

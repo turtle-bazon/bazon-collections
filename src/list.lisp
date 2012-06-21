@@ -48,6 +48,9 @@
 (defmethod add-all-objects ((list abstract-list) objects)
   (insert-all-objects-before list (slot-value list 'size) objects))
 
+(defmethod remove-object ((list abstract-list) (iterator abstract-iterator))
+  (remove-object-at list iterator))
+
 (defmethod in-range-p ((list abstract-list) (index fixnum))
   (with-slots (size)
       list

@@ -53,19 +53,16 @@
 	 do (setf (svref elements-array i) nil))
     (setf size 0)))
 
-(defmethod remove-object ((list array-list) (iterator abstract-iterator))
-  (let ((native-iterator (it-native-iterator iterator)))
-    (with-slots (current-index prev-step)
-	native-iterator
-      (remove-object-at list current-index)
-      (ecase prev-step
-	(:STEP-FORWARD (decf current-index))
-	(:STEP-BACKWARD (incf current-index))))))
-
 (defmethod get-object-at ((list array-list) (index fixnum))
   (with-slots (elements-array)
       list
     (svref elements-array index)))
+
+(defmethod set-object-at ((list array-list) (index abstract-iterator) object)
+  (let ((iterator (it-native-iterator index)))
+    (with-slots (current-index)
+	iterator
+      (set-object-at list current-index object))))
 
 (defmethod set-object-at ((list array-list) (index fixnum) object)
   (with-slots (elements-array)
@@ -168,6 +165,15 @@
     (with-slots (current-index)
 	iterator
       (insert-all-objects-after list current-index objects))))
+
+(defmethod remove-object-at ((list array-list) (index abstract-iterator))
+  (let ((iterator (it-native-iterator index)))
+    (with-slots (current-index prev-step)
+	iterator
+      (remove-object-at list current-index)
+      (ecase prev-step
+	(:STEP-FORWARD (decf current-index))
+	(:STEP-BACKWARD (incf current-index))))))
 
 (defmethod remove-object-at ((list array-list) (index fixnum))
   (with-slots (size elements-array)

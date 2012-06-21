@@ -2,7 +2,7 @@
 
 (in-package :ru.bazon.bazon-collections-tests)
 
-(defun test-add-object (list-class list element-function de-e)
+(defun test-list-add-object (list-class list element-function de-e)
   (dolist (object '(7 7 8 9))
     (add-object list (funcall element-function object)))
   (ensure-same 7 (funcall de-e (get-object-at list 0))
@@ -14,16 +14,16 @@
   (ensure-same 9 (funcall de-e (get-object-at list 3))
 	       :report (report-name list-class "9 is at 3")))
 
-(defun test-index-of (list-class list element-function)
+(defun test-list-index-of (list-class list element-function)
   (ensure-same 2 (index-of list (funcall element-function 8))
 	       :report (report-name list-class "2 is index-of 8")))
 
-(defun test-set-object-at (list-class list element-function de-e)
+(defun test-list-set-object-at (list-class list element-function de-e)
   (set-object-at list 1 (funcall element-function 10))
   (ensure-same 10 (funcall de-e (get-object-at list 1))
 	       :report (report-name list-class "10 is at 1 after set")))
 
-(defun test-insert-object (list-class list element-function de-e)
+(defun test-list-insert-object (list-class list element-function de-e)
   (insert-object-before list 1 (funcall element-function 11))
   (insert-object-after list 2 (funcall element-function 12))
   (ensure-same 11 (funcall de-e (get-object-at list 1))
@@ -33,7 +33,7 @@
   (ensure-same 6 (size list)
 	       :report (report-name list-class "size 6 after insert 11, 12")))
 
-(defun test-insert-all-objects-before (list-class list element-function de-e)
+(defun test-list-insert-all-objects-before (list-class list element-function de-e)
   (insert-all-objects-before list 6 (mapcar element-function '(1 2)))
   (ensure-same 1 (funcall de-e (get-object-at list 6))
 	       :report (report-name list-class "1 is at 6 after insert b a"))
@@ -42,7 +42,7 @@
   (ensure-same 8 (size list)
 	       :report (report-name list-class "size 8 after insert 1, 2")))
 
-(defun test-insert-all-objects-after (list-class list element-function de-e)
+(defun test-list-insert-all-objects-after (list-class list element-function de-e)
   (insert-all-objects-after list 7 (mapcar element-function '(3 4)))
   (ensure-same 3 (funcall de-e (get-object-at list 8))
 	       :report (report-name list-class "3 is at 8 after insert a a"))
@@ -51,7 +51,7 @@
   (ensure-same 10 (size list)
 	       :report (report-name list-class "size 10 after insert 3, 4")))
 
-(defun test-insert-all-objects-before-c (list-class list constructor-function element-function de-e)
+(defun test-list-insert-all-objects-before-c (list-class list constructor-function element-function de-e)
   (let ((add-collection (funcall constructor-function)))
     (add-all-objects add-collection (mapcar element-function '(15 16)))
     (insert-all-objects-before list 0 add-collection)
@@ -62,7 +62,7 @@
     (ensure-same 7 (funcall de-e (get-object-at list 2))
 		 :report (report-name list-class "7 is at 2 after insert b a"))))
 
-(defun test-insert-all-objects-after-c (list-class list constructor-function element-function de-e)
+(defun test-list-insert-all-objects-after-c (list-class list constructor-function element-function de-e)
   (let ((add-collection (funcall constructor-function)))
     (add-all-objects add-collection (mapcar element-function '(17 18)))
     (insert-all-objects-after list -1 add-collection)
@@ -73,7 +73,7 @@
     (ensure-same 15 (funcall de-e (get-object-at list 2))
 		 :report (report-name list-class "15 is at 2 after insert a a"))))
 
-(defun test-insert-all-objects-before-i (list-class list element-function de-e)
+(defun test-list-insert-all-objects-before-i (list-class list element-function de-e)
   (insert-all-objects-before
    list 0
    (make-instance 'built-in-list-iterator
@@ -85,7 +85,7 @@
   (ensure-same 17 (funcall de-e (get-object-at list 2))
 	       :report (report-name list-class "17 is at 2 after insert b a")))
 
-(defun test-insert-all-objects-after-i (list-class list element-function de-e)
+(defun test-list-insert-all-objects-after-i (list-class list element-function de-e)
   (insert-all-objects-after
    list 0
    (make-instance 'built-in-list-iterator
@@ -99,12 +99,12 @@
   (ensure-same 20 (funcall de-e (get-object-at list 3))
 	       :report (report-name list-class "23 is at 3 after insert a a")))
 
-(defun test-remove-object (list-class list de-e)
+(defun test-list-remove-object (list-class list de-e)
   (remove-object-at list 0)
   (ensure-same 21 (funcall de-e (get-object-at list 0))
 	       :report (report-name list-class "21 is at 0 after remove at 0")))
 
-(defun test-insert-object-at-iterator (list-class list element-function de-e)
+(defun test-list-insert-object-at-iterator (list-class list element-function de-e)
   (let ((iterator (c-it (iterator list))))
     (it-next iterator)
     (insert-object-before list iterator (funcall element-function 23))
@@ -116,7 +116,7 @@
     (ensure-same 24 (funcall de-e (get-object-at list 2))
 		 :report (report-name list-class "24 is at 2 after insert i"))))
 
-(defun test-insert-all-objects-i (list-class list element-function de-e)
+(defun test-list-insert-all-objects-i (list-class list element-function de-e)
   (let ((iterator (c-it (iterator list))))
     (it-next iterator)
     (insert-all-objects-before list iterator (mapcar element-function '(25 26)))
@@ -130,7 +130,7 @@
     (ensure-same 28 (funcall de-e (get-object-at list 4))
 		 :report (report-name list-class "28 is at 4 after insert all i"))))
 
-(defun test-insert-all-objects-i-c (list-class list constructor-function element-function de-e)
+(defun test-list-insert-all-objects-i-c (list-class list constructor-function element-function de-e)
   (let ((iterator (c-it (iterator list))))
     (it-next iterator)
     (let ((add-list-1 (funcall constructor-function))
@@ -148,7 +148,7 @@
       (ensure-same 32 (funcall de-e (get-object-at list 4))
 		   :report (report-name list-class "32 is at 4 after insert all i c")))))
 
-(defun test-insert-all-objects-i-i (list-class list element-function de-e)
+(defun test-list-insert-all-objects-i-i (list-class list element-function de-e)
   (let ((iterator (c-it (iterator list))))
     (it-next iterator)
     (insert-all-objects-before
@@ -168,23 +168,44 @@
     (ensure-same 36 (funcall de-e (get-object-at list 4))
 		 :report (report-name list-class "36 is at 4 after insert all i i"))))
 
+(defun test-list-set-object-at-i (list-class list element-function de-e)
+  (let ((iterator (c-it (iterator list))))
+    (it-next iterator)
+    (set-object-at list iterator (funcall element-function 37))
+    (ensure-same 37 (funcall de-e (get-object-at list 0))
+		 :report (report-name list-class "37 is at 0 after set i"))))
+
+(defun test-list-remove-object-at-i (list-class list de-e)
+  (let ((iterator (c-it (iterator list)))
+	(old-size (size list))
+	(next-element (get-object-at list 1)))
+    (it-next iterator)
+    (remove-object-at list iterator)
+    (ensure-same (- old-size 1) (size list)
+		 :report (report-name list-class "new-size less by one than old-size after remove at iterator"))
+    (ensure-same (funcall de-e next-element)
+		 (funcall de-e (get-object-at list 0))
+		 :report (report-name list-class "next element should shift left after remove at iterator"))))
+
 (defun test-list (list-class
 		  constructor-function element-function de-e)
   (let ((list (funcall constructor-function)))
-    (test-add-object list-class list element-function de-e) ; (7 7 8 9)
-    (test-index-of list-class list element-function) ; (7 7 8 9)
-    (test-set-object-at list-class list element-function de-e) ; (7 10 8 9)
-    (test-insert-object list-class list element-function de-e) ; (7 11 10 12 8 9)
-    (test-insert-all-objects-before list-class list element-function de-e) ; (7 11 10 12 8 9 1 2)
-    (test-insert-all-objects-after list-class list element-function de-e) ; (7 11 10 12 8 9 1 2 3 4)
-    (test-insert-all-objects-before-c list-class list constructor-function element-function de-e) ; (15 16 7 11 10 12 8 9 1 2 3 4)
-    (test-insert-all-objects-after-c list-class list constructor-function element-function de-e) ; (17 18 15 16 7 11 10 12 8 9 1 2 3 4)
-    (test-insert-all-objects-before-i list-class list element-function de-e) ; (19 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
-    (test-insert-all-objects-after-i list-class list element-function de-e) ; (19 21 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
-    (test-remove-object list-class list de-e) ; (21 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
-    (test-insert-object-at-iterator list-class list element-function de-e) ; (23 21 24 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
-    (test-insert-all-objects-i list-class list element-function de-e) ; (25 26 23 27 28 21 24 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
-    (test-insert-all-objects-i-c list-class list constructor-function element-function de-e) ; (29 30 25 31 32 26 23 27 28 21 24 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
-    (test-insert-all-objects-i-i list-class list element-function de-e) ; (33 34 29 35 36 30 25 31 32 26 23 27 28 21 24 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
+    (test-list-add-object list-class list element-function de-e) ; (7 7 8 9)
+    (test-list-index-of list-class list element-function) ; (7 7 8 9)
+    (test-list-set-object-at list-class list element-function de-e) ; (7 10 8 9)
+    (test-list-insert-object list-class list element-function de-e) ; (7 11 10 12 8 9)
+    (test-list-insert-all-objects-before list-class list element-function de-e) ; (7 11 10 12 8 9 1 2)
+    (test-list-insert-all-objects-after list-class list element-function de-e) ; (7 11 10 12 8 9 1 2 3 4)
+    (test-list-insert-all-objects-before-c list-class list constructor-function element-function de-e) ; (15 16 7 11 10 12 8 9 1 2 3 4)
+    (test-list-insert-all-objects-after-c list-class list constructor-function element-function de-e) ; (17 18 15 16 7 11 10 12 8 9 1 2 3 4)
+    (test-list-insert-all-objects-before-i list-class list element-function de-e) ; (19 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
+    (test-list-insert-all-objects-after-i list-class list element-function de-e) ; (19 21 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
+    (test-list-remove-object list-class list de-e) ; (21 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
+    (test-list-insert-object-at-iterator list-class list element-function de-e) ; (23 21 24 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
+    (test-list-insert-all-objects-i list-class list element-function de-e) ; (25 26 23 27 28 21 24 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
+    (test-list-insert-all-objects-i-c list-class list constructor-function element-function de-e) ; (29 30 25 31 32 26 23 27 28 21 24 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
+    (test-list-insert-all-objects-i-i list-class list element-function de-e) ; (33 34 29 35 36 30 25 31 32 26 23 27 28 21 24 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
+    (test-list-set-object-at-i list-class list element-function de-e) ; (37 34 29 35 36 30 25 31 32 26 23 27 28 21 24 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
+    (test-list-remove-object-at-i list-class list de-e) ; (34 29 35 36 30 25 31 32 26 23 27 28 21 24 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
     
     ))
