@@ -142,6 +142,14 @@
     (ensure-same nil (empty-p collection)
 		 :report (report-name collection-class "non empty after remove in iterator odd numbers"))))
 
+(defun test-collection-find-all-objects (collection-class collection de-e)
+  (let ((all-found-iterator (find-all-objects collection
+					      (lambda (number)
+						(oddp (funcall de-e number))))))
+    (ensure-same 9 (loop while (it-next all-found-iterator)
+		      sum (funcall de-e (it-current all-found-iterator)))
+		 :report (report-name collection-class "find-all-objects iterator sum for odd is 9"))))
+
 (defun test-collection (collection-class
 			constructor-function element-function de-e)
   (let ((collection (funcall constructor-function)))
@@ -163,15 +171,7 @@
     (add-all-objects collection (mapcar element-function '(1 2 3 4 5))) ; (1 2 3 4 5)
     (test-collection-remove-all-with-iterator collection-class collection de-e) ; (2 6)
     )
-
-    
-  
   (let ((collection (funcall constructor-function)))
-    (clear collection)
     (add-all-objects collection (mapcar element-function '(1 2 3 4 5)))
-    (let ((all-found-iterator (find-all-objects collection
-						(lambda (number)
-						  (oddp (funcall de-e number))))))
-      (ensure-same 9 (loop while (it-next all-found-iterator)
-			   sum (funcall de-e (it-current all-found-iterator)))
-		   :report (report-name collection-class "find-all-objects iterator count")))))
+    (test-collection-find-all-objects collection-class collection de-e) ; (1 2 3 4 5)
+    ))
