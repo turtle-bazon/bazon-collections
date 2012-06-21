@@ -113,6 +113,9 @@
 	iterator
       (insert-object-after list current-index object))))
 
+(defmethod insert-object-after ((list array-list) (index fixnum) object)
+  (insert-object-before list (+ index 1) object))
+
 (defmethod insert-all-objects-before ((list array-list) (index abstract-iterator) (objects list))
   (let ((iterator (it-native-iterator index)))
     (with-slots (current-index)
@@ -126,6 +129,16 @@
 	iterator
       (insert-all-objects-before list current-index objects)
       (incf current-index (size objects)))))
+
+(defmethod insert-all-objects-before ((list array-list) (index abstract-iterator) (iterator abstract-iterator))
+  (loop while (it-next iterator)
+	do (insert-object-before list index (it-current iterator))))
+
+(defmethod insert-all-objects-before ((list array-list) (index fixnum) (iterator abstract-iterator))
+  (loop for insert-index from index
+	while (it-next iterator)
+	do (insert-object-before list insert-index
+				 (it-current iterator))))
 
 (defmethod insert-all-objects-before ((list array-list) (index fixnum) (objects list))
   (with-slots (size elements-array)
@@ -166,6 +179,9 @@
 	iterator
       (insert-all-objects-after list current-index objects))))
 
+(defmethod insert-all-objects-after ((list array-list) (index fixnum) objects)
+  (insert-all-objects-before list (+ index 1) objects))
+
 (defmethod remove-object-at ((list array-list) (index abstract-iterator))
   (let ((iterator (it-native-iterator index)))
     (with-slots (current-index prev-step)
@@ -178,8 +194,7 @@
 (defmethod remove-object-at ((list array-list) (index fixnum))
   (with-slots (size elements-array)
       list
-    (when (and (< index 0)
-	       (>= index size))
+    (when (not (in-range-p list index))
       (error 'list-index-out-of-bounds :text (format nil "op: remove, index: ~a, size: ~a" index size)))
     (loop for i from index to (- size 2)
        do (setf (svref elements-array i)
