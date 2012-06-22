@@ -2,6 +2,8 @@
 
 (in-package :ru.bazon.bazon-collections)
 
+(deftype al-it-direction () '(member :STEP-FORWARD :STEP-BACKWARD :STEP-UNKNOWN))
+
 (defclass array-list (abstract-list)
   ((size
     :type fixnum
@@ -18,12 +20,11 @@
     :documentation "Back array"))
   (:documentation "List based on using arrays."))
 
-(deftype al-it-direction () '(member :STEP-FORWARD :STEP-BACKWARD :STEP-UNKNOWN))
-
 (defclass array-list-iterator (abstract-iterator)
   ((array-list
     :initarg :array-list
-    :type array-list)
+    :type array-list
+    :initform (error "Specify array-list."))
    (current-index
     :initform -1
     :type fixnum)
