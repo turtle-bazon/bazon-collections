@@ -112,3 +112,24 @@
 (defmethod remove-all-objects ((collection abstract-collection) (iterator abstract-iterator))
   (loop while (it-next iterator)
      do (remove-object collection iterator)))
+
+(defmethod print-object ((collection abstract-collection) stream)
+  (print-unreadable-object (collection stream :type t :identity t)
+    (with-slots (size)
+	collection
+      (princ "(" stream)
+      (princ (size collection) stream)
+      (princ ")" stream)
+      (princ " " stream)
+      (princ "(" stream)
+      (let ((iterator (iterator collection)))
+	(when (it-next iterator)
+	  (princ (it-current iterator) stream))
+	(loop for i from 0 to 8
+	      while (it-next iterator)
+	      do (progn
+		   (princ " " stream)
+		   (princ (it-current iterator) stream))))
+      (when (> size 10)
+	(princ " ..." stream))
+      (princ ")" stream))))
