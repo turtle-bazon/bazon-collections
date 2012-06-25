@@ -2,7 +2,19 @@
 
 (in-package :ru.bazon.bazon-collections)
 
-(deftype linked-list-node () 'cons)
+(defclass linked-list-node ()
+  ((object
+    :initform nil
+    :documentation "Stored object")
+   (next-node
+    :type linked-list-entry
+    :initform nil
+    :documentation "Link to next entry node.")
+   (prev-node
+    :type linked-list-entry
+    :initform nil
+    :documentation "Link to previous entry node."))
+  (:documentation "Entry of linked list."))
 
 (defclass linked-list (abstract-list)
   ((size
@@ -31,31 +43,18 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun linked-list-new-node ()
-  (cons nil (cons nil nil)))
-
-(defun linked-list-get-node (node)
-  (declare (type cons node))
-  (car node))
-
-(defun linked-list-set-node (node object)
-  (declare (type cons node))
-  (setf (car node) object))
-
 (defun linked-list-link-nodes (node1 node2)
-  (declare (type cons node1 node2))
-  (let ((refs-node-1 (cdr node1))
-	(refs-node-2 (cdr node2)))
-    (setf (cdr refs-node-1) refs-node-2)
-    (setf (car refs-node-2) refs-node-1)))
+  (declare (type linked-list-node node1 node2))
+  (setf (slot-value node1 'next-node) node2)
+  (setf (slot-value node2 'prev-node) node1))
 
 (defun linked-list-add-first (list object)
   (declare (type linked-list list))
   (with-slots (before-first-node size)
       list
-    (let ((next-node (cdr (cdr before-first-node)))
-	  (new-node (linked-list-new-node)))
-      (linked-list-set-node new-node object)
+    (let ((next-node (slot-value before-first-node 'next-node))
+	  (new-node (make-instance 'linked-list-node)))
+      (setf (slot-value new-node 'object) object)
       (linked-list-link-nodes before-first-node new-node)
       (linked-list-link-nodes new-node next-node)
       (incf size))))
@@ -63,11 +62,9 @@
 (defmethod initialize-instance :after ((list linked-list) &key)
   (with-slots (before-first-node after-last-node)
       list
-    (let ((bf-node (linked-list-new-node))
-	  (al-node (linked-list-new-node)))
-      (setf before-first-node bf-node)
-      (setf after-last-node al-node)
-      (linked-list-link-nodes bf-node al-node))))
+    (setf before-first-node (make-instance 'linked-list-node))
+    (setf after-last-node (make-instance 'linked-list-node))
+    (linked-list-link-nodes before-first-node after-last-node)))
 
 (defmethod size ((list linked-list))
   (slot-value list 'size))
@@ -79,6 +76,10 @@
 					     :condition condition)
 	iterator)))
 
+(defmethod clear ((list linked-list))
+  (with-slots (before-first-node after-last-node)
+      list
+    (linked-list-link-nodes before-first-node after-last-node)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -90,7 +91,28 @@
 (defmethod it-current ((iterator linked-list-iterator))
   (with-slots (current-node)
       iterator
-    (linked-list-get-node current-node)))
+    (slot-value current-node 'object)))
 
 (defmethod it-next ((iterator linked-list-iterator))
-  nil)
+  (with-slots (current-node)
+      iterator
+    (setf current-node (slot-value current-node 'next-node))))
+
+(defmethod it-prev ((iterator linked-list-iterator))
+  (with-slots (current-node)
+      iterator
+    (setf current-node (slot-value current-node 'prev-node))))
+
+(defmethod it-before-first ((iterator linked-list-iterator))
+  (with-slots (linked-list current-node)
+      iterator
+    (with-slots (before-first-node)
+	linked-list
+      (setf current-node before-first-node))))
+
+(defmethod it-after-last ((iterator linked-list-iterator))
+  (with-slots (linked-list current-node)
+      iterator
+    (with-slots (after-last-node)
+	linked-list
+      (setf current-node after-last-node))))
