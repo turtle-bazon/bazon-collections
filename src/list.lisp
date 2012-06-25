@@ -63,3 +63,6 @@
 	  while (it-next iterator)
 	  when (oequal-p list object (it-current iterator))
 	    return index)))
+
+(defmethod get-object-at ((list abstract-list) (iterator abstract-iterator))
+  (it-current iterator))

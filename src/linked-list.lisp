@@ -48,16 +48,12 @@
   (setf (slot-value node1 'next-node) node2)
   (setf (slot-value node2 'prev-node) node1))
 
-(defun linked-list-add-first (list object)
-  (declare (type linked-list list))
-  (with-slots (before-first-node size)
-      list
-    (let ((next-node (slot-value before-first-node 'next-node))
-	  (new-node (make-instance 'linked-list-node)))
-      (setf (slot-value new-node 'object) object)
-      (linked-list-link-nodes before-first-node new-node)
-      (linked-list-link-nodes new-node next-node)
-      (incf size))))
+(defun linked-list-move-iterator-to (iterator index)
+  (declare (type linked-list-iterator iterator)
+	   (type integer index))
+  (it-before-first iterator)
+  (loop for i from 0 to index
+       do (it-next iterator)))
 
 (defmethod initialize-instance :after ((list linked-list) &key)
   (with-slots (before-first-node after-last-node)
@@ -80,6 +76,55 @@
   (with-slots (before-first-node after-last-node)
       list
     (linked-list-link-nodes before-first-node after-last-node)))
+
+(defmethod get-object-at ((list linked-list) (index integer))
+  (when (not (in-range-p list index))
+    (error 'list-index-out-of-bounds (format nil "op: get-object-at, index: ~a, size: ~a"
+					     index (slot-value list 'size))))
+  (let ((iterator (iterator list)))
+    (linked-list-move-iterator-to iterator index)
+    (it-current iterator)))
+
+(defmethod set-object-at ((list linked-list) (index integer) object)
+  (when (not (in-range-p list index))
+    (error 'list-index-out-of-bounds (format nil "op: set-object-at, index: ~a, size: ~a"
+					     index (slot-value list 'size))))
+  (let ((iterator (iterator list)))
+    (linked-list-move-iterator-to iterator index)
+    (set-object-at list iterator object)))
+
+(defmethod set-object-at ((list linked-list) (index linked-list-iterator) object)
+  (with-slots (current-node)
+      index
+    (with-slots (size before-first-node after-last-node)
+	list
+      (when (or (eq current-node before-first-node)
+		(eq current-node after-last-node))
+	(error 'list-index-out-of-bounds (format nil "op: set-object-at, index: ~a, size: ~a"
+						 index size)))
+      (setf (slot-value current-node 'object) object))))
+
+(defmethod insert-object-before ((list linked-list) (index integer) object)
+  (when (not (in-range-p list index))
+    (error 'list-index-out-of-bounds (format nil "op: insert-object-before, index: ~a, size: ~a"
+					     index (slot-value list 'size))))
+  (let ((iterator (iterator list)))
+    (linked-list-move-iterator-to iterator index)
+    (insert-object-before list iterator object)))
+
+(defmethod insert-object-before ((list linked-list) (index linked-list-iterator) object)
+  (with-slots (current-node)
+      index
+    (with-slots (size before-first-node after-last-node)
+	list
+      (when (eq current-node before-first-node)
+	(error 'list-index-out-of-bounds (format nil "op: insert-object-before, index: ~a, size: ~a"
+						 index size)))
+      (let ((new-node (make-instance 'linked-list-node))
+	    (prev-node (slot-value current-node 'prev-node)))
+	(setf (slot-value new-node 'object) object)
+	(linked-list-link-nodes prev-node new-node)
+	(linked-list-link-nodes new-node current-node)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
