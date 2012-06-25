@@ -187,6 +187,26 @@
 		 (funcall de-e (get-object-at list 0))
 		 :report (report-name list-class "next element should shift left after remove at iterator"))))
 
+(defun test-list-iterator-removal-front (list-class list element-function de-e)
+  (let ((iterator (iterator list)))
+    (it-before-first iterator)
+    (it-next iterator)
+    (it-next iterator)
+    (remove-object list iterator)
+    (insert-object-after list iterator (funcall element-function -1))
+    (ensure-same -1 (funcall de-e (get-object-at list 1))
+		 :report (report-name list-class "-1 is at 1 after remove at iterator and insert -1"))))
+
+(defun test-list-iterator-removal-back (list-class list element-function de-e)
+  (let ((iterator (iterator list)))
+    (it-after-last iterator)
+    (it-prev iterator)
+    (it-prev iterator)
+    (remove-object list iterator)
+    (insert-object-before list iterator (funcall element-function -1))
+    (ensure-same -1 (funcall de-e (get-object-at list (- (size list) 2)))
+		 :report (report-name list-class "-1 is at pre-pre-size after remove at iterator and insert -1"))))
+
 (defun test-list (list-class
 		  constructor-function element-function de-e)
   (let ((list (funcall constructor-function)))
@@ -207,5 +227,10 @@
     (test-list-insert-all-objects-i-i list-class list element-function de-e) ; (33 34 29 35 36 30 25 31 32 26 23 27 28 21 24 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
     (test-list-set-object-at-i list-class list element-function de-e) ; (37 34 29 35 36 30 25 31 32 26 23 27 28 21 24 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
     (test-list-remove-object-at-i list-class list de-e) ; (34 29 35 36 30 25 31 32 26 23 27 28 21 24 22 20 17 18 15 16 7 11 10 12 8 9 1 2 3 4)
-    
+    (let ((list (funcall constructor-function)))
+      (add-all-objects list (mapcar element-function '(1 2 3)))
+      (test-list-iterator-removal-front list-class list element-function de-e))
+    (let ((list (funcall constructor-function)))
+      (add-all-objects list (mapcar element-function '(1 2 3)))
+      (test-list-iterator-removal-back list-class list element-function de-e))
     ))

@@ -191,9 +191,8 @@
     (with-slots (current-index prev-step)
 	iterator
       (remove-object-at list current-index)
-      (ecase prev-step
-	(:STEP-FORWARD (decf current-index))
-	(:STEP-BACKWARD (incf current-index))))))
+      (when (eq prev-step :STEP-FORWARD)
+	(decf current-index)))))
 
 (defmethod remove-object-at ((list array-list) (index fixnum))
   (with-slots (size elements-array)
