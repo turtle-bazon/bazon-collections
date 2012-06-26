@@ -124,12 +124,12 @@
       (princ "(" stream)
       (let ((iterator (iterator collection)))
 	(when (it-next iterator)
-	  (princ (it-current iterator) stream))
-	(loop for i from 0 to 8
-	      while (it-next iterator)
-	      do (progn
-		   (princ " " stream)
-		   (princ (it-current iterator) stream))))
+	  (princ (it-current iterator) stream)
+	  (loop for i from 0 to 8
+	     while (it-next iterator)
+	     do (progn
+		  (princ " " stream)
+		  (princ (it-current iterator) stream)))))
       (when (> size 10)
 	(princ " ..." stream))
       (princ ")" stream))))
