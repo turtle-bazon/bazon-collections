@@ -5,7 +5,8 @@
   (:use :cl
 	:bazon-collections
 	:lift
-	:iterate)
+	:iterate
+	:trivial-backtrace)
   (:export
    :run-all-tests)
   (:documentation "Common Lisp Collections framework (test package)"))
@@ -32,7 +33,9 @@
 
 (defun c-it (iterator)
   (make-instance 'conditional-iterator
-		 :condition (lambda (o) t)
+		 :condition (lambda (o)
+			      (declare (ignore o))
+			      t)
 		 :back-iterator iterator))
 
 (defun report-name (collection-class name)

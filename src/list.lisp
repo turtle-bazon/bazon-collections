@@ -24,10 +24,10 @@
 (def-w-generic insert-object-after (list index object)
   (:documentation "Destructively inserts object after object by given index."))
 
-(def-w-generic insert-all-objects-before (list index object)
+(def-w-generic insert-all-objects-before (list index objects)
   (:documentation "Destructively inserts objects before object by given index."))
 
-(def-w-generic insert-all-objects-after (list index object)
+(def-w-generic insert-all-objects-after (list index objects)
   (:documentation "Destructively inserts objects after object by given index."))
 
 (def-w-generic remove-object-at (list index)
@@ -41,12 +41,6 @@
   (:documentation "Error of index out of bounds."))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defmethod add-object ((list abstract-list) object)
-  (insert-object-before list (slot-value list 'size) object))
-
-(defmethod add-all-objects ((list abstract-list) objects)
-  (insert-all-objects-before list (slot-value list 'size) objects))
 
 (defmethod remove-object ((list abstract-list) (iterator abstract-iterator))
   (remove-object-at list iterator))

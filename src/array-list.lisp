@@ -57,6 +57,12 @@
 	 do (setf (svref elements-array i) nil))
     (setf size 0)))
 
+(defmethod add-object ((list array-list) object)
+  (insert-object-before list (slot-value list 'size) object))
+
+(defmethod add-all-objects ((list array-list) objects)
+  (insert-all-objects-before list (slot-value list 'size) objects))
+
 (defmethod get-object-at ((list array-list) (index fixnum))
   (with-slots (elements-array)
       list

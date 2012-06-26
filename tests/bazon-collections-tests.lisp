@@ -20,13 +20,23 @@
 	   (slot-value number-entity 'number)))
     (dolist (test-f test-functions)
       (funcall test-f collection-class
-	       #'constructor-function
-	       #'element-function
-	       #'de-e)
+		   #'constructor-function
+		   #'element-function
+		   #'de-e)
+      (handler-case
+	  nil
+	(error (e) (progn
+		     (print-condition e t)
+		     (ensure-same nil e))))
       (funcall test-f collection-class
-	       #'constructor-function-entity
-	       #'element-function-entity
-	       #'de-e-entity))))
+		   #'constructor-function-entity
+		   #'element-function-entity
+		   #'de-e-entity)
+      (handler-case
+	  nil
+	(error (e) (progn
+		     (print-condition e t)
+		     (ensure-same nil e)))))))
 
 (deftestsuite test-bazon-collections () ())
 
