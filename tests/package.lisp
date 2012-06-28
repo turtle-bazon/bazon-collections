@@ -13,6 +13,12 @@
 
 (in-package :ru.bazon.bazon-collections-tests)
 
+(defmacro deftestfun (name lambda &body body)
+  `(defun ,name ,lambda
+     (handler-bind
+	 ((condition (lambda (c) (format t "Condition signalled in: ~a~%" (quote ,name)))))
+       ,@body)))
+
 (defclass test-entity ()
   ((number
     :initarg :number
