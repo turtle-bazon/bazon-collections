@@ -45,3 +45,9 @@
   (start-collection-test 'linked-list
 			 (list #'test-collection
 			       #'test-list)))
+
+(addtest
+    test-simple-queue
+  (start-collection-test 'simple-queue
+			 (list #'test-collection
+			       #'test-queue)))

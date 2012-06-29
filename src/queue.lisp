@@ -12,6 +12,8 @@
 (def-w-generic dequeue-object (queue)
   (:documentation "Dequeues object from queue."))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defmethod add-object ((queue abstract-queue) object)
   (enqueue-object queue object))
 

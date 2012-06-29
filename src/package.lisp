@@ -49,6 +49,7 @@
    :pull-object
    
    :abstract-queue
+   :simple-queue
    :enqueue-object
    :dequeue-object
 

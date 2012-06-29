@@ -115,8 +115,7 @@
 
 (defmethod print-object ((collection abstract-collection) stream)
   (print-unreadable-object (collection stream :type t :identity t)
-    (with-slots (size)
-	collection
+    (let((size (size collection)))
       (princ "(" stream)
       (princ (size collection) stream)
       (princ ")" stream)
@@ -126,10 +125,10 @@
 	(when (it-next iterator)
 	  (princ (it-current iterator) stream)
 	  (loop for i from 0 to 8
-	     while (it-next iterator)
-	     do (progn
-		  (princ " " stream)
-		  (princ (it-current iterator) stream)))))
+		while (it-next iterator)
+		do (progn
+		     (princ " " stream)
+		     (princ (it-current iterator) stream)))))
       (when (> size 10)
 	(princ " ..." stream))
       (princ ")" stream))))

@@ -38,6 +38,60 @@
   (setf (cdr (cdr node1)) node2)
   (setf (car (cdr node2)) node1))
 
+(defun linked-list-node-object (node)
+  (declare (type linked-list-node node))
+  (car node))
+
+(defun linked-list-prev-node (node)
+  (declare (type linked-list-node node))
+  (car (cdr node)))
+
+(defun linked-list-next-node (node)
+  (declare (type linked-list-node node))
+  (cdr (cdr node)))
+
+(defun linked-list-add-object-first (linked-list object)
+  (declare (type linked-list linked-list))
+  (with-slots (size before-first-node)
+      linked-list
+    (let ((new-node (cons object (cons nil nil)))
+	  (next-node (linked-list-next-node before-first-node)))
+      (linked-list-link-nodes before-first-node new-node)
+      (linked-list-link-nodes new-node next-node)
+      (incf size))))
+
+(defun linked-list-add-object-last (linked-list object)
+  (declare (type linked-list linked-list))
+  (with-slots (size after-last-node)
+      linked-list
+    (let ((new-node (cons object (cons nil nil)))
+	  (prev-node (linked-list-prev-node after-last-node)))
+      (linked-list-link-nodes prev-node new-node)
+      (linked-list-link-nodes new-node after-last-node)
+      (incf size))))
+
+(defun linked-list-remove-object-first (linked-list)
+  (declare (type linked-list linked-list))
+  (with-slots (size before-first-node)
+      linked-list
+    (when (> size 0)
+      (let* ((next-node (linked-list-next-node before-first-node))
+	     (after-next-node (linked-list-next-node next-node)))
+	(linked-list-link-nodes before-first-node after-next-node)
+	(decf size)
+	(linked-list-node-object next-node)))))
+
+(defun linked-list-remove-object-last (linked-list)
+  (declare (type linked-list linked-list))
+  (with-slots (size after-last-node)
+      linked-list
+    (when (> size 0)
+      (let* ((prev-node (linked-list-prev-node after-last-node))
+	     (before-prev-node (linked-list-prev-node prev-node)))
+	(linked-list-link-nodes before-prev-node after-last-node)
+	(decf size)
+	(linked-list-node-object prev-node)))))
+
 (defun linked-list-move-iterator-to (iterator index)
   (declare (type linked-list-iterator iterator)
 	   (type integer index))
@@ -69,13 +123,7 @@
     (setf size 0)))
 
 (defmethod add-object ((list linked-list) object)
-  (with-slots (size after-last-node)
-      list
-    (let ((new-node (cons object (cons nil nil)))
-	  (prev-node (car (cdr after-last-node))))
-      (linked-list-link-nodes prev-node new-node)
-      (linked-list-link-nodes new-node after-last-node)
-      (incf size))))
+  (linked-list-add-object-last list object))
 
 (defmethod add-all-objects ((list linked-list) objects)
   (let ((iterator (iterator list)))

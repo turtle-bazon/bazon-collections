@@ -32,6 +32,10 @@
 			 (:file "queue"
 				:depends-on ("package"
 					     "linear-list"))
+			 (:file "simple-queue"
+				:depends-on ("package"
+					     "queue"
+					     "linked-list"))
 			 (:file "stack"
 				:depends-on ("package"
 					     "linear-list"))
