@@ -2,7 +2,7 @@
 
 (in-package :ru.bazon.bazon-collections)
 
-(defclass simple-queue (abstract-queue)
+(def-collection-impl-class simple-queue (abstract-queue)
   ((linked-list
     :type linked-list
     :initform (make-instance 'linked-list)

@@ -4,7 +4,7 @@
 
 (deftype al-it-direction () '(member :STEP-FORWARD :STEP-BACKWARD :STEP-UNKNOWN))
 
-(defclass array-list (abstract-list)
+(def-collection-impl-class array-list (abstract-list)
   ((size
     :type fixnum
     :initform 0
