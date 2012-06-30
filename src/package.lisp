@@ -54,6 +54,7 @@
    :dequeue-object
 
    :abstract-stack
+   :simple-stack
    :push-object
    :pop-object
 

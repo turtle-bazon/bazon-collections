@@ -51,3 +51,9 @@
   (start-collection-test 'simple-queue
 			 (list #'test-collection
 			       #'test-queue)))
+
+(addtest
+    test-simple-stack
+  (start-collection-test 'simple-stack
+			 (list #'test-collection
+			       #'test-stack)))

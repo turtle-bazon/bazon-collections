@@ -12,6 +12,8 @@
 (def-w-generic pop-object (stack)
   (:documentation "Retreives and removes object from stack."))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defmethod add-object ((stack abstract-stack) object)
   (push-object stack object))
 

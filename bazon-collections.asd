@@ -39,6 +39,10 @@
 			 (:file "stack"
 				:depends-on ("package"
 					     "linear-list"))
+			 (:file "simple-stack"
+				:depends-on ("package"
+					     "stack"
+					     "linked-list"))
 			 (:file "set"
 				:depends-on ("package"
 					     "collection"))

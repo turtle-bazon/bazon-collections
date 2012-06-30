@@ -16,8 +16,11 @@
 				:depends-on ("package"))
 			 (:file "queue-tests"
 				:depends-on ("package"))
+			 (:file "stack-tests"
+				:depends-on ("package"))
 			 (:file "bazon-collections-tests"
 				:depends-on ("package"
 					     "collection-tests"
 					     "list-tests"
-					     "queue-tests"))))))
+					     "queue-tests"
+					     "stack-tests"))))))
