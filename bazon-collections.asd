@@ -37,6 +37,7 @@
 		  ((:file "array-list")
 		   (:file "linked-list")
 		   (:file "simple-queue")
+		   (:file "graham-queue")
 		   (:file "simple-stack")
 		   (:file "cons-stack"))))))
   :in-order-to ((test-op (test-op bazon-collections-tests)))

@@ -31,10 +31,16 @@
       stack
     (setf list '())))
 
-#+nil(defmethod remove-object)
+(defmethod remove-object ((stack cons-stack) object)
+  )
 
-#+nil(defmethod peek-object )
+(defmethod peek-object ((stack cons-stack))
+  )
 
-#+nil(defmethod push-object )
+(defmethod push-object ((stack cons-stack) object)
+  )
 
-#+nil(defmethod pop-object)
+(defmethod pop-object ((stack cons-stack))
+  )
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -75,8 +75,10 @@
    :array-list
    :linked-list
 
+   :graham-queue
    :simple-queue
 
+   :cons-stack
    :simple-stack)
   (:documentation "Common Lisp Collections framework"))
 
