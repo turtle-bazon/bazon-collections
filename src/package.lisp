@@ -7,6 +7,8 @@
    :collection-impls
    :generic-marks
 
+   ; api
+   
    :abstract-iterator
    :abstract-decorating-iterator
    :conditional-iterator
@@ -31,8 +33,6 @@
    :remove-all-objects
 
    :abstract-list
-   :array-list
-   :linked-list
    :array-index-out-of-bounds
    :in-range-p
    :index-of
@@ -49,12 +49,10 @@
    :pull-object
    
    :abstract-queue
-   :simple-queue
    :enqueue-object
    :dequeue-object
 
    :abstract-stack
-   :simple-stack
    :push-object
    :pop-object
 
@@ -70,7 +68,16 @@
    :get-object
    :put-object
    
-   :abstract-tree)
+   :abstract-tree
+
+   ; implementations
+   
+   :array-list
+   :linked-list
+
+   :simple-queue
+
+   :simple-stack)
   (:documentation "Common Lisp Collections framework"))
 
 (in-package :ru.bazon.bazon-collections)
