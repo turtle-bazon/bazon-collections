@@ -53,7 +53,19 @@
 			       #'test-queue)))
 
 (addtest
+    test-graham-queue
+  (start-collection-test 'graham-queue
+			 (list #'test-collection
+			       #'test-queue)))
+
+(addtest
     test-simple-stack
   (start-collection-test 'simple-stack
+			 (list #'test-collection
+			       #'test-stack)))
+
+(addtest
+    test-cons-stack
+  (start-collection-test 'cons-stack
 			 (list #'test-collection
 			       #'test-stack)))

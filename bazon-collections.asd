@@ -37,7 +37,8 @@
 		  ((:file "array-list")
 		   (:file "linked-list")
 		   (:file "simple-queue")
-		   (:file "simple-stack"))))))
+		   (:file "simple-stack")
+		   (:file "cons-stack"))))))
   :in-order-to ((test-op (test-op bazon-collections-tests)))
   :perform (test-op :after (op c)
 		    (funcall
