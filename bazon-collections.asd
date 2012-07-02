@@ -8,50 +8,36 @@
   :description "Common Lisp Collections framework"
   :depends-on ()
   :components ((:module src
-                        :components
-			((:file "package")
-			 (:file "iterator"
-				:depends-on ("package"))
-			 (:file "collection"
-				:depends-on ("package"
-					     "iterator"))
-			 (:file "list"
-				:depends-on ("package"
-					     "collection"))
-			 (:file "array-list"
-				:depends-on ("package"
-					     "list"
-					     "iterator"))
-			 (:file "linked-list"
-				:depends-on ("package"
-					     "list"
-					     "iterator"))
-			 (:file "linear-list"
-				:depends-on ("package"
-					     "collection"))
-			 (:file "queue"
-				:depends-on ("package"
-					     "linear-list"))
-			 (:file "simple-queue"
-				:depends-on ("package"
-					     "queue"
-					     "linked-list"))
-			 (:file "stack"
-				:depends-on ("package"
-					     "linear-list"))
-			 (:file "simple-stack"
-				:depends-on ("package"
-					     "stack"
-					     "linked-list"))
-			 (:file "set"
-				:depends-on ("package"
-					     "collection"))
-			 (:file "map"
-				:depends-on ("package"
-					     "collection"))
-			 (:file "tree"
-				:depends-on ("package"
-					     "collection")))))
+		:components
+		((:file "package")
+		 (:module api
+		  :depends-on ("package")
+		  :components
+		  ((:file "iterator")
+		   (:file "collection"
+		    :depends-on ("iterator"))
+		   (:file "list"
+		    :depends-on ("collection"))
+		   (:file "linear-list"
+		    :depends-on ("collection"))
+		   (:file "queue"
+		    :depends-on ("linear-list"))
+		   (:file "stack"
+		    :depends-on ("linear-list"))
+		   (:file "set"
+		    :depends-on ("collection"))
+		   (:file "map"
+		    :depends-on ("collection"))
+		   (:file "tree"
+		    :depends-on ("collection"))))
+		 (:module impl
+		  :depends-on ("package"
+			       "api")
+		  :components
+		  ((:file "array-list")
+		   (:file "linked-list")
+		   (:file "simple-queue")
+		   (:file "simple-stack"))))))
   :in-order-to ((test-op (test-op bazon-collections-tests)))
   :perform (test-op :after (op c)
 		    (funcall
