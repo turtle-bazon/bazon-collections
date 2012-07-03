@@ -83,25 +83,30 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defclass built-in-list-iterator (abstract-iterator)
-  ((list :initarg :list
-	 :initform (error "Define list")
-	 :type list))
+  ((current-cons
+    :initarg :list
+    :initform (error "Define current-cons.")
+    :type list)
+   (prev-cons
+    :type cons
+    :initform nil))
   (:documentation "Iterator over built-in list type (only forward)."))
 
 (defmethod initialize-instance :after ((iterator built-in-list-iterator) &key list)
-  (with-slots ((it-list list))
+  (with-slots (current-cons)
       iterator
-    (setf it-list (cons :BEFORE-LIST list))))
+    (setf current-cons (cons :BEFORE-LIST list))))
 
 (defmethod it-current ((iterator built-in-list-iterator))
-  (with-slots (list)
+  (with-slots (current-cons)
       iterator
-    (if (eq list '())
+    (if (eq current-cons '())
 	:AFTER-LIST
-	(first list))))
+	(car current-cons))))
 
 (defmethod it-next ((iterator built-in-list-iterator))
-  (with-slots (list)
+  (with-slots (current-cons prev-cons)
       iterator
-    (setf list (rest list))
-    (not (eq list '()))))
+    (setf prev-cons current-cons)
+    (setf current-cons (rest current-cons))
+    (not (eq current-cons '()))))
