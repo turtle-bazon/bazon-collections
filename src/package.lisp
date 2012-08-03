@@ -58,9 +58,6 @@
 
    :abstract-set
    :member-object
-   :difference-sets
-   :intersection-sets
-   :union-sets
 
    :abstract-map
    :contains-key
