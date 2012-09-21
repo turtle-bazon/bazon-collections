@@ -23,3 +23,11 @@
 
 (def-w-generic put-object (map key value)
   (:documentation "Puts key-value pair."))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun entry-key (entry)
+  (car entry))
+
+(defun entry-value (entry)
+  (cdr entry))

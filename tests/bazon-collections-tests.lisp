@@ -69,3 +69,9 @@
   (start-collection-test 'cons-stack
 			 (list #'test-collection
 			       #'test-stack)))
+
+(addtest
+    test-list-set
+  (start-collection-test 'list-set
+			 (list #'test-collection
+			       #'test-set)))

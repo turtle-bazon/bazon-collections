@@ -76,7 +76,9 @@
    :simple-queue
 
    :cons-stack
-   :simple-stack)
+   :simple-stack
+
+   :list-set)
   (:documentation "Common Lisp Collections framework"))
 
 (in-package :ru.bazon.bazon-collections)
