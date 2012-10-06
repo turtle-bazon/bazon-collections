@@ -78,7 +78,7 @@
    :cons-stack
    :simple-stack
 
-   :list-set)
+   :cons-set)
   (:documentation "Common Lisp Collections framework"))
 
 (in-package :ru.bazon.bazon-collections)

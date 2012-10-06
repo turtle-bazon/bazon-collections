@@ -72,6 +72,6 @@
 
 (addtest
     test-list-set
-  (start-collection-test 'list-set
+  (start-collection-test 'cons-set
 			 (list #'test-collection
 			       #'test-set)))

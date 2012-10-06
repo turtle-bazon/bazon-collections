@@ -40,7 +40,7 @@
 		   (:file "graham-queue")
 		   (:file "simple-stack")
 		   (:file "cons-stack")
-		   (:file "list-set"))))))
+		   (:file "cons-set"))))))
   :in-order-to ((test-op (test-op bazon-collections-tests)))
   :perform (test-op :after (op c)
 		    (funcall
