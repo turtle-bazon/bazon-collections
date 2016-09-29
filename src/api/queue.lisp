@@ -6,10 +6,10 @@
   ()
   (:documentation "Collection that stores objects prior to processing FIFO."))
 
-(def-w-generic enqueue-object (queue object)
+(defgeneric enqueue-object (queue object)
   (:documentation "Enqueues given object to queue."))
 
-(def-w-generic dequeue-object (queue)
+(defgeneric dequeue-object (queue)
   (:documentation "Dequeues object from queue."))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -4,7 +4,7 @@
 
 (deftype linked-list-node () 'cons)
 
-(def-collection-impl-class linked-list (abstract-list)
+(defclass linked-list (abstract-list)
   ((size
     :type integer
     :initform 0

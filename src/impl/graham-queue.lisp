@@ -2,7 +2,7 @@
 
 (in-package :ru.bazon.bazon-collections)
 
-(def-collection-impl-class graham-queue (abstract-queue)
+(defclass graham-queue (abstract-queue)
   ((list-queue
     :type list
     :initform (cons nil nil)

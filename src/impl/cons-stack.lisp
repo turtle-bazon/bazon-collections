@@ -2,7 +2,7 @@
 
 (in-package :ru.bazon.bazon-collections)
 
-(def-collection-impl-class cons-stack (abstract-stack)
+(defclass cons-stack (abstract-stack)
   ((list
     :type list
     :initform '()

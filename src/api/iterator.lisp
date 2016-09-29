@@ -6,22 +6,22 @@
   ()
   (:documentation "Common iterator interface."))
 
-(def-r-generic it-native-iterator (iterator)
+(defgeneric it-native-iterator (iterator)
   (:documentation "Return native (begin of begin and collection specific) iterator in possible decorated iterator. Returns self for native collection iterators."))
 
-(def-r-generic it-current (iterator)
+(defgeneric it-current (iterator)
   (:documentation "Access to current object in iterator."))
 
-(def-w-generic it-next (iterator)
+(defgeneric it-next (iterator)
   (:documentation "Iterate to next object and returns if iterate result."))
 
-(def-w-generic it-prev (iterator)
+(defgeneric it-prev (iterator)
   (:documentation "Iterate to previous object and returns iterate result."))
 
-(def-w-generic it-before-first (iterator)
+(defgeneric it-before-first (iterator)
   (:documentation "Move cursor before first object."))
 
-(def-w-generic it-after-last (iterator)
+(defgeneric it-after-last (iterator)
   (:documentation "Move cursor after last object."))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -2,7 +2,7 @@
 
 (in-package :ru.bazon.bazon-collections)
 
-(def-collection-impl-class simple-stack (abstract-stack)
+(defclass simple-stack (abstract-stack)
   ((linked-list
     :type linked-list
     :initform (make-instance 'linked-list)

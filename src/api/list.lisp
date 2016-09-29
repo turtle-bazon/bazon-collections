@@ -6,31 +6,31 @@
   ()
   (:documentation "Collection of ordered elements."))
 
-(def-r-generic in-range-p (list index)
+(defgeneric in-range-p (list index)
   (:documentation "Test whether given index in list range."))
 
-(def-r-generic index-of (list object)
+(defgeneric index-of (list object)
   (:documentation "Returns index of given object."))
 
-(def-r-generic get-object-at (list index)
+(defgeneric get-object-at (list index)
   (:documentation "Gets object at given index."))
 
-(def-w-generic set-object-at (list index object)
+(defgeneric set-object-at (list index object)
   (:documentation "Destructively sets object at given index."))
 
-(def-w-generic insert-object-before (list index object)
+(defgeneric insert-object-before (list index object)
   (:documentation "Destructively inserts object before object by given index."))
 
-(def-w-generic insert-object-after (list index object)
+(defgeneric insert-object-after (list index object)
   (:documentation "Destructively inserts object after object by given index."))
 
-(def-w-generic insert-all-objects-before (list index objects)
+(defgeneric insert-all-objects-before (list index objects)
   (:documentation "Destructively inserts objects before object by given index."))
 
-(def-w-generic insert-all-objects-after (list index objects)
+(defgeneric insert-all-objects-after (list index objects)
   (:documentation "Destructively inserts objects after object by given index."))
 
-(def-w-generic remove-object-at (list index)
+(defgeneric remove-object-at (list index)
   (:documentation "Destructively removes object by given index."))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

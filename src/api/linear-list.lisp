@@ -6,8 +6,8 @@
   ()
   (:documentation "List that store element in specific order."))
 
-(def-r-generic peek-object (list)
+(defgeneric peek-object (list)
   (:documentation "Retreives, but not removes object from list."))
 
-(def-w-generic pull-object (list)
+(defgeneric pull-object (list)
   (:documentation "Reterives and removes object from list."))

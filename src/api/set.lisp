@@ -6,7 +6,7 @@
   ()
   (:documentation "Collection that contains no duplicate elements."))
 
-(def-r-generic member-object (set object)
+(defgeneric member-object (set object)
   (:documentation "Tests whether given object is member of set."))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
