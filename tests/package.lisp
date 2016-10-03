@@ -9,7 +9,7 @@
 	:trivial-backtrace)
   (:export
    :run-all-tests)
-  (:documentation "Common Lisp Collections framework (test package)"))
+  (:documentation "Common Lisp Collections library (test package)"))
 
 (in-package :ru.bazon.bazon-collections-tests)
 

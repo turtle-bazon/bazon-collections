@@ -5,8 +5,8 @@
   :author "Azamat S. Kalimoulline <turtle@bazon.ru>"
   :licence "Lessor Lisp General Public License"
   :version "0.0.1.0"
-  :description "Common Lisp Collections framework"
-  :depends-on ()
+  :description "Common Lisp Collections library"
+  :depends-on (bordeaux-threads)
   :components ((:module src
 		:components
 		((:file "package")
@@ -38,6 +38,7 @@
 		   (:file "linked-list")
 		   (:file "simple-queue")
 		   (:file "graham-queue")
+                   (:file "blocking-queue")
 		   (:file "simple-stack")
 		   (:file "cons-stack")
 		   (:file "cons-set"))))))

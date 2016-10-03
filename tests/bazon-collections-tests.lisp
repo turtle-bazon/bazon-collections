@@ -59,6 +59,18 @@
 			       #'test-queue)))
 
 (addtest
+    test-blocking-queue-back-simple-queue
+  (start-collection-test 'blocking-queue
+                         (list #'test-blocking-queue)
+                         (list :back-queue (make-instance 'simple-queue))))
+
+(addtest
+    test-blocking-queue-back-graham-queue
+  (start-collection-test 'blocking-queue
+                         (list #'test-blocking-queue)
+                         (list :back-queue (make-instance 'graham-queue))))
+
+(addtest
     test-simple-stack
   (start-collection-test 'simple-stack
 			 (list #'test-collection
@@ -75,3 +87,5 @@
   (start-collection-test 'cons-set
 			 (list #'test-collection
 			       #'test-set)))
+
+

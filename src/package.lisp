@@ -2,7 +2,8 @@
 
 (defpackage :ru.bazon.bazon-collections
   (:nicknames :bazon-collections)
-  (:use :cl)
+  (:use :cl
+        :bordeaux-threads)
   (:export
    ; api
    
@@ -19,6 +20,7 @@
    :abstract-collection
    :size
    :empty-p
+   :full-p
    :contains
    :iterator
    :find-object
@@ -71,11 +73,12 @@
 
    :graham-queue
    :simple-queue
+   :blocking-queue
 
    :cons-stack
    :simple-stack
 
    :cons-set)
-  (:documentation "Common Lisp Collections framework"))
+  (:documentation "Common Lisp Collections library"))
 
 (in-package :ru.bazon.bazon-collections)

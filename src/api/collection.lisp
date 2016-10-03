@@ -24,6 +24,9 @@
 (defgeneric empty-p (collection)
   (:documentation "Checks whether collection is empty."))
 
+(defgeneric full-p (collection)
+  (:documentation "Checks whether collection is full."))
+
 (defgeneric contains (collection object)
   (:documentation "Tests if given object contains in collection."))
 
@@ -63,6 +66,9 @@
 
 (defmethod empty-p ((collection abstract-collection))
   (= 0 (size collection)))
+
+(defmethod full-p ((collection abstract-collection))
+  nil)
 
 (defmethod contains ((collection abstract-collection) object)
   (not (null (find-object collection object))))
