@@ -6,7 +6,10 @@
   :licence "Lessor Lisp General Public License"
   :version "0.0.1.0"
   :description "Common Lisp Collections library tests"
-  :depends-on (:bazon-collections :lift :bordeaux-threads :iterate :trivial-backtrace)
+  :depends-on (:bazon-collections
+               :lift
+               :bordeaux-threads
+               :iterate)
   :components ((:module tests
                         :components
 			((:file "package")

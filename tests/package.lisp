@@ -5,8 +5,7 @@
   (:use :cl
 	:bazon-collections
 	:lift
-	:iterate
-	:trivial-backtrace)
+	:iterate)
   (:export
    :run-all-tests)
   (:documentation "Common Lisp Collections library (test package)"))
