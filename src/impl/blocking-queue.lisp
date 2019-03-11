@@ -24,7 +24,10 @@
     (with-lock-held (lock)
       (size back-queue))))
 
-#+nil(defmethod iterator ((queue blocking-queue) &optional condition))
+(defmethod iterator ((queue blocking-queue) &optional condition)
+  (with-slots (back-queue)
+      queue
+    (iterator back-queue condition)))
 
 (defmethod clear ((queue blocking-queue))
   (with-slots (back-queue lock decreased-condition)
