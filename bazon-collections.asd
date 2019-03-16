@@ -41,7 +41,10 @@
                    (:file "blocking-queue")
 		   (:file "simple-stack")
 		   (:file "cons-stack")
-		   (:file "cons-set"))))))
+		   (:file "cons-set")
+                   (:file "hash-map")
+                   (:file "hash-set"
+                    :depends-on ("hash-map")))))))
   :in-order-to ((test-op (test-op bazon-collections-tests)))
   :perform (test-op :after (op c)
 		    (funcall

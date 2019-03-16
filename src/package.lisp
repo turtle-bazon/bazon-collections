@@ -62,6 +62,7 @@
    :contains-key
    :contains-value
    :get-object
+   :rem-object
    :put-object
    
    :abstract-tree
@@ -78,7 +79,10 @@
    :cons-stack
    :simple-stack
 
-   :cons-set)
+   :cons-set
+   :hash-set
+
+   :hash-map)
   (:documentation "Common Lisp Collections library"))
 
 (in-package :ru.bazon.bazon-collections)

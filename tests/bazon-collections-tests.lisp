@@ -20,14 +20,12 @@
 	   (slot-value number-entity 'number)))
     (dolist (test-f test-functions)
       (handler-bind ((condition (lambda (c)
-				  #+nil(print-backtrace c)
                                   (format t "Condition notified: ~a~&" c))))
 	(funcall test-f collection-class
 		 #'constructor-function
 		 #'element-function
 		 #'de-e))
       (handler-bind ((condition (lambda (c)
-				  #+nil(print-backtrace c)
                                   (format t "Condition notified: ~a~&" c))))
 	(funcall test-f collection-class
 		 #'constructor-function-entity
@@ -90,4 +88,13 @@
 			 (list #'test-collection
 			       #'test-set)))
 
+(addtest
+    test-hash-set
+  (start-collection-test 'hash-set
+                         (list #'test-collection
+                               #'test-set)))
 
+(addtest
+    test-hash-map
+  (start-collection-test 'hash-map
+                         (list #'test-map)))

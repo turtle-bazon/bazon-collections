@@ -119,7 +119,7 @@
   (loop while (it-next iterator)
      do (remove-object collection iterator)))
 
-(defmethod print-object ((collection abstract-collection) stream)
+#+nil(defmethod print-object ((collection abstract-collection) stream)
   (print-unreadable-object (collection stream :type t :identity t)
     (let((size (size collection)))
       (princ "(" stream)
@@ -127,7 +127,7 @@
       (princ ")" stream)
       (princ " " stream)
       (princ "(" stream)
-      (let ((iterator (iterator collection)))
+      #+nil(let ((iterator (iterator collection)))
 	(when (it-next iterator)
 	  (princ (it-current iterator) stream)
 	  (loop for i from 0 to 8
