@@ -67,7 +67,7 @@
     (loop for sub-bucket on (svref elements-array index)
           as entry = (car (car sub-bucket))
           as entry-key = (slot-value entry 'key)
-          when (funcall test key entry-key)
+          when (oequal-p hash-map key entry-key)
             return entry)))
 
 (defun hash-map-find-entry (hash-map key)
@@ -149,7 +149,7 @@
           as found-in-bucket = (loop for sub-bucket on bucket
                                      as entry = (car (car sub-bucket))
                                      as entry-value = (slot-value entry 'value)
-                                     when (funcall test object entry-value)
+                                     when (oequal-p map object entry-value)
                                        return entry)
           when found-in-bucket
             return t)))
@@ -182,7 +182,7 @@
                              (loop for sub-bucket on existing-bucket
                                    as entry = (car (car sub-bucket))
                                    as entry-key = (slot-value entry 'key)
-                                   when (funcall test key entry-key)
+                                   when (oequal-p map key entry-key)
                                      return (cons t (hash-map-remove-bucket-in-root
                                                      existing-bucket sub-bucket))))))
       (when removed-struct

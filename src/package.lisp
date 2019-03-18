@@ -62,6 +62,8 @@
    :abstract-map
    :contains-key
    :contains-value
+   :get-keys
+   :get-values
    :get-object
    :rem-object
    :put-object
