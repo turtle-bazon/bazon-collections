@@ -95,6 +95,17 @@
       (setf elements-array new-elements-array)
       (setf threshold (floor (* load-factor new-capacity))))))
 
+(defun hash-map-remove-bucket-in-root (root-bucket bucket)
+  (let ((prev-bucket (cdr (car bucket)))
+        (next-bucket (cdr bucket)))
+    (when prev-bucket
+      (setf (cdr prev-bucket) next-bucket))
+    (when next-bucket
+      (setf (cdr (car next-bucket)) prev-bucket))
+    (if prev-bucket
+        root-bucket
+        next-bucket)))
+
 (defmethod initialize-instance :after ((map hash-map) &key)
   (with-slots (initial-capacity load-factor threshold elements-array)
       map
@@ -148,6 +159,20 @@
     (when existing-entry
       (slot-value existing-entry 'value))))
 
+(defmethod remove-object ((map hash-map) (iterator abstract-iterator))
+  (let ((native-iterator (it-native-iterator iterator)))
+    (with-slots (current-index current-bucket)
+        native-iterator
+      (with-slots (size elements-array)
+          map
+        (let* ((root-bucket (svref elements-array current-index))
+               (modified-bucket (hash-map-remove-bucket-in-root
+                                 root-bucket current-bucket)))
+          (decf size)
+          (setf current-bucket (cdr (car current-bucket)))
+          (setf (svref elements-array current-index) modified-bucket))))
+    (it-prev iterator)))
+
 (defmethod rem-object ((map hash-map) key)
   (with-slots (test size elements-array)
       map
@@ -156,17 +181,10 @@
            (removed-struct (when existing-bucket
                              (loop for sub-bucket on existing-bucket
                                    as entry = (car (car sub-bucket))
-                                   as prev-bucket = (cdr (car sub-bucket))
                                    as entry-key = (slot-value entry 'key)
                                    when (funcall test key entry-key)
-                                     return (let ((next-bucket (cdr sub-bucket)))
-                                              (when prev-bucket
-                                                (setf (cdr prev-bucket) next-bucket))
-                                              (when next-bucket
-                                                (setf (cdr (car next-bucket)) prev-bucket))
-                                              (cons t (if prev-bucket
-                                                          existing-bucket
-                                                          next-bucket)))))))
+                                     return (cons t (hash-map-remove-bucket-in-root
+                                                     existing-bucket sub-bucket))))))
       (when removed-struct
         (let ((removed-p (car removed-struct))
               (new-bucket (cdr removed-struct)))

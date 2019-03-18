@@ -18,6 +18,7 @@
    :it-after-last
    
    :abstract-collection
+   :oequal-p
    :size
    :empty-p
    :full-p
