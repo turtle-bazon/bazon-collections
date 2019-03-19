@@ -170,7 +170,9 @@
                                  root-bucket current-bucket)))
           (decf size)
           (setf current-bucket (cdr (car current-bucket)))
-          (setf (svref elements-array current-index) modified-bucket))))
+          (setf (svref elements-array current-index) modified-bucket)
+          (unless current-bucket
+            (decf current-index)))))
     (it-prev iterator)))
 
 (defmethod rem-object ((map hash-map) key)
@@ -202,8 +204,11 @@
           (with-slots ((existing-value value))
               existing-entry
             (setf existing-value object))
-          (let ((new-entry (make-instance 'map-entry :key key :value object)))
-            (setf (svref elements-array index) (cons (cons new-entry nil) existing-bucket))
+          (let* ((new-entry (make-instance 'map-entry :key key :value object))
+		 (new-bucket (cons (cons new-entry nil) existing-bucket)))
+            (setf (svref elements-array index) new-bucket)
+	    (when existing-bucket
+              (setf (cdr (car existing-bucket)) new-bucket))
             (incf size)
             (when (>= size threshold)
               (hash-map-resize map (ash (length elements-array) 1)))
