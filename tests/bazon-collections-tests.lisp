@@ -32,69 +32,58 @@
 		 #'element-function-entity
 		 #'de-e-entity)))))
 
-(deftestsuite test-bazon-collections () ())
+(in-suite all-tests)
 
-(addtest
-    test-array-list
+(test test-array-list
   (start-collection-test 'array-list
 			 (list #'test-collection
 			       #'test-list)))
 
-(addtest
-    test-linked-list
+(test test-linked-list
   (start-collection-test 'linked-list
 			 (list #'test-collection
 			       #'test-list)))
 
-(addtest
-    test-simple-queue
+(test test-simple-queue
   (start-collection-test 'simple-queue
 			 (list #'test-collection
 			       #'test-queue)))
 
-(addtest
-    test-graham-queue
+(test test-graham-queue
   (start-collection-test 'graham-queue
 			 (list #'test-collection
 			       #'test-queue)))
 
-(addtest
-    test-blocking-queue-back-simple-queue
+(test test-blocking-queue-back-simple-queue
   (start-collection-test 'blocking-queue
                          (list #'test-blocking-queue)
                          (list :back-queue (make-instance 'simple-queue))))
 
-(addtest
-    test-blocking-queue-back-graham-queue
+(test test-blocking-queue-back-graham-queue
   (start-collection-test 'blocking-queue
                          (list #'test-blocking-queue)
                          (list :back-queue (make-instance 'graham-queue))))
 
-(addtest
-    test-simple-stack
+(test test-simple-stack
   (start-collection-test 'simple-stack
 			 (list #'test-collection
 			       #'test-stack)))
 
-(addtest
-    test-cons-stack
+(test test-cons-stack
   (start-collection-test 'cons-stack
 			 (list #'test-collection
 			       #'test-stack)))
 
-(addtest
-    test-list-set
+(test test-list-set
   (start-collection-test 'cons-set
 			 (list #'test-collection
 			       #'test-set)))
 
-(addtest
-    test-hash-set
+(test test-hash-set
   (start-collection-test 'hash-set
                          (list #'test-collection
                                #'test-set)))
 
-(addtest
-    test-hash-map
+(test test-hash-map
   (start-collection-test 'hash-map
                          (list #'test-map)))

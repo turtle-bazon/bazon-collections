@@ -13,21 +13,6 @@
     :documentation "Hash function for contained keys."))
   (:documentation "Collection that maps keys to values."))
 
-(defgeneric oequal-p (map o1 o2)
-  (:documentation "Tests for objects equality using :test and :hash functions. Users should initialize collection with it's own equal and hash providers to overwrite equality function."))
-
-(defgeneric iterator (map &optional condition)
-  (:documentation "Returns iterator for given collection."))
-
-(defgeneric size (map)
-  (:documentation "Returns size of collection."))
-
-(defgeneric empty-p (map)
-  (:documentation "Checks whether collection is empty."))
-
-(defgeneric clear (map)
-  (:documentation "Clears given collection."))
-
 (defgeneric get-keys (map)
   (:documentation "Get keys contained in map."))
 

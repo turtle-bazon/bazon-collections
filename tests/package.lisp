@@ -2,10 +2,11 @@
 
 (defpackage :ru.bazon.bazon-collections-tests
   (:nicknames :bazon-collections-tests)
-  (:use :cl
-	:bazon-collections
-	:lift
-	:iterate)
+  (:use
+   :cl
+   :bazon-collections
+   :iterate
+   :fiveam)
   (:export
    :run-all-tests)
   (:documentation "Common Lisp Collections library (test package)"))
@@ -40,10 +41,28 @@
 (defun report-name (collection-class name)
   (format nil "~a: ~a" collection-class name))
 
+(defun ensure-same (expected result &optional &key report)
+  (if report
+      (is (eq expected result) report)
+      (is (eq expected result))))
+
+(defun ensure-null (result &optional &key report)
+  (if report
+      (is (eq nil result) report)
+      (is (eq nil result))))
+
+(defun ensure (result &optional &key report)
+  (if report
+      (is-true result report)
+      (is-true result)))
+
+(def-suite all-tests
+  :description "All tests")
+
 ;;;
 ;;; run-tests
 ;;;
-(defun run-all-tests ()
+#+nil(defun run-all-tests ()
   (let* ((test-results (iter (for test-suite in (testsuites))
 			     (for should-run-tests = (not (or (equal test-suite 'TEST-MIXIN)
 							      (equal test-suite 'LIFT::PROCESS-TEST-MIXIN))))

@@ -7,8 +7,8 @@
   :version "0.0.1.0"
   :description "Common Lisp Collections library tests"
   :depends-on (:bazon-collections
-               :lift
                :bordeaux-threads
+               :fiveam
                :iterate)
   :components ((:module tests
                         :components
