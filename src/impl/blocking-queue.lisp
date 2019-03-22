@@ -18,6 +18,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun make-blocking-queue (implementation-class)
+  (make-instance 'blocking-queue :back-queue (make-instance implementation-class)))
+
 (defmethod size ((queue blocking-queue))
   (with-slots (back-queue lock)
       queue

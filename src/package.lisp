@@ -78,6 +78,7 @@
    :graham-queue
    :simple-queue
    :blocking-queue
+   :make-blocking-queue
 
    :cons-stack
    :simple-stack
