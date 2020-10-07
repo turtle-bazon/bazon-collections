@@ -10,11 +10,11 @@
     :initform 0
     :documentation "Size of list.")
    (before-first-node
-    :type linked-list-node
+    :type (or linked-list-node null)
     :initform nil
     :documentation "First entry of list.")
    (after-last-node
-    :type linked-list-node
+    :type (or linked-list-node null)
     :initform nil
     :documentation "Last entry of list."))
   (:documentation "List with elements linked each other."))

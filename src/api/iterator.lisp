@@ -86,9 +86,9 @@
   ((current-cons
     :initarg :list
     :initform (error "Define current-cons.")
-    :type list)
+    :type (or cons null))
    (prev-cons
-    :type cons
+    :type (or cons null)
     :initform nil))
   (:documentation "Iterator over built-in list type (only forward)."))
 

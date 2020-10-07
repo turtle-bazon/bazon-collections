@@ -15,7 +15,7 @@
     :initform 16
     :documentation "Back array capaciy grow step")
    (elements-array
-    :type (simple-vector *)
+    :type (or (simple-vector *) null)
     :initform nil
     :documentation "Back array"))
   (:documentation "List based on using arrays."))

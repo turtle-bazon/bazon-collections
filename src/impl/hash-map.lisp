@@ -23,7 +23,7 @@
     :documentation "Total number of stored objects")
    (elements-array
     :initform nil
-    :type (simple-vector *)))
+    :type (or (simple-vector *) null)))
   (:documentation "HashMap implementation."))
 
 (defclass hash-map-iterator (abstract-iterator)
