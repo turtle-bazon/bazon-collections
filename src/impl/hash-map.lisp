@@ -9,7 +9,7 @@
     :type fixnum
     :documentation "Capacity of back array, MUST be power of 2")
    (load-factor
-    :initargs :load-factor
+    :initarg :load-factor
     :initform 0.75
     :type single-float
     :documentation "Load factor")
