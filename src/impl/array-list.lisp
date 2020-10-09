@@ -110,7 +110,7 @@
       list
     (when (and (< index 0)
 	       (> index size))
-      (error 'list-index-out-of-bounds (format nil "op: insert, index: ~a, size: ~a" index size)))
+      (error 'list-index-out-of-bounds :text (format nil "op: insert, index: ~a, size: ~a" index size)))
     (ensure-array-list-capacity list (+ size 1))
     (when (< index size)
       (array-shift-right elements-array index (- size 1) 1))
@@ -155,7 +155,7 @@
       list
     (when (and (< index 0)
 	       (> index size))
-      (error 'list-index-out-of-bounds (format nil "op: insert, index: ~a, size: ~a" index size)))
+      (error 'list-index-out-of-bounds :text (format nil "op: insert, index: ~a, size: ~a" index size)))
     (let ((insert-size (length objects)))
       (ensure-array-list-capacity list (+ size insert-size))
       (when (< index size)
@@ -171,7 +171,7 @@
       list
     (when (and (< index 0)
 	       (> index size))
-      (error 'list-index-out-of-bounds (format nil "op: insert, index: ~a, size: ~a" index size)))
+      (error 'list-index-out-of-bounds :text (format nil "op: insert, index: ~a, size: ~a" index size)))
     (let ((insert-size (size objects)))
       (ensure-array-list-capacity list (+ size insert-size))
       (when (< index size)
