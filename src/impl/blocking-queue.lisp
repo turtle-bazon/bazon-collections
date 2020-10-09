@@ -44,7 +44,7 @@
   (with-slots (back-queue lock decreased-condition)
       queue
     (with-lock-held (lock)
-      (let ((remove-result (remove-object back-queue)))
+      (let ((remove-result (remove-object back-queue index)))
         (condition-notify decreased-condition)
         remove-result))))
 

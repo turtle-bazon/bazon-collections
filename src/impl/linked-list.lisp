@@ -132,16 +132,16 @@
 
 (defmethod get-object-at ((list linked-list) (index integer))
   (when (not (in-range-p list index))
-    (error 'list-index-out-of-bounds (format nil "op: get-object-at, index: ~a, size: ~a"
-					     index (slot-value list 'size))))
+    (error 'list-index-out-of-bounds :text (format nil "op: get-object-at, index: ~a, size: ~a"
+                                                   index (slot-value list 'size))))
   (let ((iterator (iterator list)))
     (linked-list-move-iterator-to iterator index)
     (it-current iterator)))
 
 (defmethod set-object-at ((list linked-list) (index integer) object)
   (when (not (in-range-p list index))
-    (error 'list-index-out-of-bounds (format nil "op: set-object-at, index: ~a, size: ~a"
-					     index (slot-value list 'size))))
+    (error 'list-index-out-of-bounds :text (format nil "op: set-object-at, index: ~a, size: ~a"
+                                                   index (slot-value list 'size))))
   (let ((iterator (iterator list)))
     (linked-list-move-iterator-to iterator index)
     (set-object-at list iterator object)))
@@ -154,8 +154,8 @@
 	  list
 	(when (or (eq current-node before-first-node)
 		  (eq current-node after-last-node))
-	  (error 'list-index-out-of-bounds (format nil "op: set-object-at, index: ~a, size: ~a"
-						   index size)))
+	  (error 'list-index-out-of-bounds :text (format nil "op: set-object-at, index: ~a, size: ~a"
+                                                         index size)))
 	(setf (car current-node) object)))))
 
 (defmethod insert-object-before ((list linked-list) (index integer) object)
@@ -163,8 +163,8 @@
       list
     (when (not (or (in-range-p list index)
 		   (= index size)))
-      (error 'list-index-out-of-bounds (format nil "op: insert-object-before, index: ~a, size: ~a"
-					       index size)))
+      (error 'list-index-out-of-bounds :text (format nil "op: insert-object-before, index: ~a, size: ~a"
+                                                     index size)))
     (let ((iterator (iterator list)))
       (linked-list-move-iterator-to iterator index)
       (insert-object-before list iterator object))))
@@ -176,8 +176,8 @@
       (with-slots (size before-first-node after-last-node)
 	  list
 	(when (eq current-node before-first-node)
-	  (error 'list-index-out-of-bounds (format nil "op: insert-object-before, index: ~a, size: ~a"
-						   index size)))
+	  (error 'list-index-out-of-bounds :text (format nil "op: insert-object-before, index: ~a, size: ~a"
+                                                         index size)))
 	(let ((new-node (cons object (cons nil nil)))
 	      (prev-node (car (cdr current-node))))
 	  (linked-list-link-nodes prev-node new-node)
@@ -189,8 +189,8 @@
       list
     (when (not (or (in-range-p list index)
 		   (= index -1)))
-      (error 'list-index-out-of-bounds (format nil "op: insert-object-after, index: ~a, size: ~a"
-					       index size)))
+      (error 'list-index-out-of-bounds :text (format nil "op: insert-object-after, index: ~a, size: ~a"
+                                                     index size)))
     (let ((iterator (iterator list)))
       (linked-list-move-iterator-to iterator index)
       (insert-object-after list iterator object))))
@@ -202,8 +202,8 @@
       (with-slots (size before-first-node after-last-node)
 	  list
 	(when (eq current-node after-last-node)
-	  (error 'list-index-out-of-bounds (format nil "op: insert-object-after, index: ~a, size: ~a"
-						   index size)))
+	  (error 'list-index-out-of-bounds :text (format nil "op: insert-object-after, index: ~a, size: ~a"
+                                                         index size)))
 	(let ((new-node (cons object (cons nil nil)))
 	      (next-node (cdr (cdr current-node))))
 	  (linked-list-link-nodes current-node new-node)
@@ -215,7 +215,7 @@
       list
     (when (not (or (in-range-p list index)
 		   (= index size)))
-      (error 'list-index-out-of-bounds (format nil "op: insert-all-objects-before, index: ~a, size: ~a" index size)))
+      (error 'list-index-out-of-bounds :text (format nil "op: insert-all-objects-before, index: ~a, size: ~a" index size)))
     (let ((iterator (iterator list)))
       (linked-list-move-iterator-to iterator index)
       (insert-all-objects-before list iterator objects))))
@@ -235,7 +235,7 @@
       (with-slots (size before-first-node)
 	  list
 	(when (eq current-node before-first-node)
-	  (error 'list-index-out-of-bounds (format nil "op: insert-all-objects-before, index: ~a, size: ~a" index size)))
+	  (error 'list-index-out-of-bounds :text (format nil "op: insert-all-objects-before, index: ~a, size: ~a" index size)))
 	(loop while (it-next objects)
 	   do (let ((new-node (cons (it-current objects) (cons nil nil)))
 		    (prev-node (car (cdr current-node))))
@@ -248,7 +248,7 @@
       list
     (when (not (or (in-range-p list index)
 		   (= index -1)))
-      (error 'list-index-out-of-bounds (format nil "op: insert-all-objects-after, index: ~a, size: ~a" index size)))
+      (error 'list-index-out-of-bounds :text (format nil "op: insert-all-objects-after, index: ~a, size: ~a" index size)))
     (let ((iterator (iterator list)))
       (linked-list-move-iterator-to iterator index)
       (insert-all-objects-after list iterator objects))))
@@ -268,7 +268,7 @@
       (with-slots (size after-last-node)
 	  list
 	(when (eq current-node after-last-node)
-	  (error 'list-index-out-of-bounds (format nil "op: insert-all-objects-before, index: ~a, size: ~a" index size)))
+	  (error 'list-index-out-of-bounds :text (format nil "op: insert-all-objects-before, index: ~a, size: ~a" index size)))
 	(let ((next-node (cdr (cdr current-node))))
 	  (loop while (it-next objects)
 		do (let ((new-node (cons (it-current objects) (cons nil nil)))
@@ -281,7 +281,7 @@
   (with-slots (size)
       list
     (when (not (in-range-p list index))
-      (error 'list-index-out-of-bounds (format nil "op: remove-object-at, index: ~a, size: ~a" index size)))
+      (error 'list-index-out-of-bounds :text (format nil "op: remove-object-at, index: ~a, size: ~a" index size)))
     (let ((iterator (iterator list)))
       (linked-list-move-iterator-to iterator index)
       (remove-object-at list iterator))))
@@ -294,7 +294,7 @@
 	  iterator
 	(when (or (eq current-node before-first-node)
 		  (eq current-node after-last-node))
-	  (error 'list-index-out-of-bounds (format nil "op: remove-object-at, index: ~a, size: ~a" index size)))
+	  (error 'list-index-out-of-bounds :text (format nil "op: remove-object-at, index: ~a, size: ~a" index size)))
 	(let ((prev-node (car (cdr current-node)))
 	      (next-node (cdr (cdr current-node))))
 	  (linked-list-link-nodes prev-node next-node)
