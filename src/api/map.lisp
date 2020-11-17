@@ -47,6 +47,16 @@
     :documentation "Value element of map entry"))
   (:documentation "Map entry that holds key and value"))
 
+(defgeneric map-entry-key (me)
+  (:documentation "Entry key")
+  (:method (me)
+    (slot-value me 'key)))
+
+(defgeneric map-entry-value (me)
+  (:documentation "Entry value")
+  (:method (me)
+    (slot-value me 'value)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmethod oequal-p ((map abstract-map) o1 o2)

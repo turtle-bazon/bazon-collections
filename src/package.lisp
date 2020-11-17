@@ -59,6 +59,9 @@
    :abstract-set
    :member-object
 
+   :map-entry
+   :map-entry-key
+   :map-entry-value
    :abstract-map
    :contains-key
    :contains-value
